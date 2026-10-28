@@ -110,9 +110,6 @@ p { margin: 0; }
 .field-card small { display: block; margin-top: 4px; font-size: 15px; color: var(--ink-soft); }
 
 /* Quote */
-.quote { background: var(--blush); margin-top: clamp(56px, 7vw, 104px); padding: clamp(64px, 8vw, 120px) 0; text-align: center; }
-.quote blockquote { margin: 0 auto; max-width: 20ch; font-size: clamp(32px, 4vw, 60px); font-weight: 500; line-height: 1.08; letter-spacing: -0.025em; text-wrap: balance; }
-.quote cite { display: block; margin-top: 24px; font-style: normal; font-size: 16px; }
 
 /* Steps */
 .howfield { background: var(--sage); margin-top: clamp(40px, 5vw, 80px); padding: clamp(48px, 6vw, 88px) 0; }
@@ -253,6 +250,72 @@ p { margin: 0; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 @media (max-width: 760px) { .wordmark svg { height: 26px; } .shots .fabric-shot span { left: 8px; bottom: 8px; padding: 3px 9px; font-size: 11px; } .shots .fabric-shot span b { display: none; } .shots .fabric-shot span i { color: var(--ink); } .shots .fabric-shot span i::after { content: none; } }
+/* Testimonials: one card, three shapes (photo, words, both) */
+:root { --t-band: var(--blush); --t-card: var(--white); --t-ink: var(--ink); --t-radius: 12px; --t-photo: var(--mist); --t-quote: var(--font); --t-quote-weight: 500; --t-quote-size: 18px; --t-quote-big: 25px; --t-quote-track: -0.015em; --t-cap: var(--ink-soft); --t-gap: 14px; --t-chip: var(--white); --t-chip-hover: var(--lavender); --t-chip-on: var(--ink); --t-chip-on-ink: var(--white); --t-chip-radius: 30px; }
+.voices { background: var(--t-band); margin-top: clamp(56px, 7vw, 104px); padding: clamp(56px, 7vw, 96px) 0; }
+.voices-head { display: flex; justify-content: space-between; align-items: end; gap: 16px 24px; flex-wrap: wrap; margin-bottom: 36px; }
+.voices-head h2 { font-size: clamp(32px, 3.6vw, 52px); letter-spacing: -0.025em; }
+.voices-tools { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.km-row-toggle svg { flex: none; }
+.km-t { margin: 0; width: 300px; flex: none; display: flex; flex-direction: column; background: var(--t-card); border-radius: var(--t-radius); overflow: hidden; color: var(--t-ink); }
+.km-t-photo { display: block; aspect-ratio: 1; background: var(--t-photo); overflow: hidden; }
+.km-t-photo img { width: 100%; height: 100%; object-fit: cover; }
+.km-t-words { margin: 0; padding: 26px 24px 0; font-family: var(--t-quote); font-weight: var(--t-quote-weight); font-size: var(--t-quote-size); line-height: 1.32; letter-spacing: var(--t-quote-track); }
+.km-t-photo + .km-t-words { padding-top: 18px; }
+.km-t-words p { text-wrap: pretty; }
+.km-t-cap { margin-top: auto; padding: 16px 24px 20px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 14px; }
+.km-t-pet { font-weight: 600; }
+.km-t-prod { margin-left: auto; color: var(--t-cap); text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); }
+.km-t-prod:hover { color: var(--t-ink); text-decoration-color: currentColor; }
+.km-t--photo .km-t-photo { flex: 1; aspect-ratio: auto; min-height: 300px; }
+.km-t--words .km-t-words { flex: 1; font-size: var(--t-quote-big); line-height: 1.22; padding-top: 30px; }
+.km-row { overflow: hidden; padding: 4px 0; }
+.km-row-track { display: flex; width: max-content; animation: km-row var(--km-row-dur, 120s) linear infinite; }
+.km-row-set { display: flex; align-items: stretch; gap: var(--t-gap); padding-right: var(--t-gap); }
+.km-row:hover .km-row-track, .km-row:focus-within .km-row-track, .km-row.paused .km-row-track { animation-play-state: paused; }
+@keyframes km-row { to { transform: translate3d(-50%, 0, 0); } }
+
+/* Vaši utisci page and a Product's own Testimonials */
+.t-page { display: flow-root; background: var(--t-band); padding: 0 0 clamp(56px, 7vw, 96px); }
+.t-lead { max-width: 52ch; font-size: 18px; color: var(--t-cap); }
+.t-filter { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 32px; }
+.t-filter a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: var(--t-chip-radius); background: var(--t-chip); text-decoration: none; transition: background .2s var(--ease), color .2s var(--ease); }
+.t-filter a:hover { background: var(--t-chip-hover); }
+.t-filter a[aria-current="page"] { background: var(--t-chip-on); color: var(--t-chip-on-ink); }
+.t-filter a span { font-size: 13px; opacity: 0.72; }
+.t-for { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin: -8px 0 28px; padding: 14px 14px 14px 20px; background: var(--t-card); border-radius: var(--t-radius); }
+.t-for b { font-family: var(--t-quote); font-weight: var(--t-quote-weight); font-size: 22px; }
+.t-for span { color: var(--t-cap); }
+.t-wall { columns: 3 280px; column-gap: var(--t-gap); }
+.t-wall .km-t { width: auto; break-inside: avoid; margin-bottom: var(--t-gap); }
+.t-wall .km-t--photo .km-t-photo { flex: none; aspect-ratio: 4 / 5; min-height: 0; }
+.pdp-voices { background: var(--t-band); padding: clamp(48px, 6vw, 80px) 0; }
+.pdp-voices .voices-head { margin-bottom: 28px; }
+.t-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--t-gap); align-items: stretch; }
+.t-grid .km-t { width: auto; }
+.km-t-words { line-height: 1.25; }
+.km-t--words:nth-child(3n+1) { background: var(--lavender); }
+.km-t--words:nth-child(3n+2) { background: var(--sage); }
+.km-t--words:nth-child(3n) { background: var(--caramel); }
+.t-filter a { border: 1.5px solid var(--ink); font-weight: 500; font-size: 15px; }
+.t-page .page-title { padding-bottom: 12px; }
+.km-row-toggle { display: inline-flex; align-items: center; gap: 8px; }
+@media (max-width: 1000px) {
+  .t-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .km-t { width: 260px; }
+  .km-t--words .km-t-words { font-size: calc(var(--t-quote-big) - 3px); }
+  .t-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter) 4px; scrollbar-width: none; }
+  .t-grid .km-t { width: 78%; scroll-snap-align: start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .km-row { overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); padding: 4px var(--gutter); }
+  .km-row-track { animation: none !important; }
+  .km-row-set[aria-hidden] { display: none; }
+  .km-row .km-t { scroll-snap-align: start; }
+  .km-row-toggle { display: none; }
+}
 </style>
 </head>
 <body>
@@ -278,10 +341,10 @@ p { margin: 0; }
   }
 
   function header(c) {
-    return '<header class="bar"><div class="wrap bar-in"><nav class="nav" aria-label="Glavni meni"><a href="#/proizvodi" data-act="browse">Krevetići</a><a href="#/proizvodi" data-act="browse" data-coll="Poznato. Ali novo.">Kolekcija</a><a href="#/tkanine">Tkanine</a></nav>' +
+    return '<header class="bar"><div class="wrap bar-in"><nav class="nav" aria-label="Glavni meni"><a href="#/proizvodi" data-act="browse">Krevetići</a><a href="#/proizvodi" data-act="browse" data-coll="Poznato. Ali novo.">Kolekcija</a><a href="#/tkanine">Tkanine</a><a href="#/utisci">Vaši utisci</a></nav>' +
       '<a class="wordmark" href="#/" aria-label="KettyMon, početna">' + KM_LOGO.row + '</a>' +
       '<div class="tools">' + langs(c.state) + '<a class="icon-btn" href="#/korpa" aria-label="Korpa, ' + c.cart.count + ' proizvoda">' + I.bag + (c.cart.count ? '<span class="count">' + c.cart.count + '</span>' : '') + '</a></div></div>' +
-      '<nav class="mobile-nav" aria-label="Kategorije"><a href="#/proizvodi" data-act="browse">Krevetići</a><a href="#/proizvodi" data-act="browse" data-coll="Poznato. Ali novo.">Kolekcija</a><a href="#/tkanine">Tkanine</a></nav></header>';
+      '<nav class="mobile-nav" aria-label="Kategorije"><a href="#/proizvodi" data-act="browse">Krevetići</a><a href="#/proizvodi" data-act="browse" data-coll="Poznato. Ali novo.">Kolekcija</a><a href="#/tkanine">Tkanine</a><a href="#/utisci">Vaši utisci</a></nav></header>';
   }
 
   function card(p) {
@@ -308,7 +371,8 @@ p { margin: 0; }
       (c.filterNote ? '<p class="note-row">' + c.filterNote + ' · <button type="button" class="link" data-act="browse">Prikaži sve</button></p>' : '') +
       '<div class="products">' + c.products.map(card).join('') + '</div></div></section>' +
       '<section class="section" id="tkanine"><div class="wrap"><div class="sec-head"><h2>Izaberite po tkanini</h2></div><div class="fields">' + fieldsHtml + '</div></div></section>' +
-      '<section class="quote" id="utisci"><div class="wrap"><blockquote>„Šarko je od prvog dana spavao samo na svom KettyMon krevetiću. Sad ne može da ga namami ni kauč.“</blockquote><cite>Šarko, mešanac · primer utiska</cite></div></section>' +
+      '<section class="voices" id="utisci" aria-labelledby="utisci-h"><div class="wrap voices-head"><h2 id="utisci-h">Vaši utisci</h2><div class="voices-tools">' + c.trowToggle('chip km-row-toggle') + '<a class="btn" href="#/utisci">Svi utisci</a></div></div>' +
+      c.trow(c.testimonials, 'Vaši utisci') + '</section>' +
       '<section class="howfield" id="kupovina"><div class="wrap"><h2>Kako kupujete</h2><ol class="steps">' +
       '<li><span class="n">1</span><p><b>Poručite na sajtu</b><span>Bez registracije i bez kartice. Dovoljni su adresa i telefon.</span></p></li>' +
       '<li><span class="n">2</span><p><b>Zovemo vas</b><span>Potvrdimo porudžbinu, a zatim krevetić šijemo i šaljemo. ' + c.delivery + '.</span></p></li>' +
@@ -329,7 +393,24 @@ p { margin: 0; }
       '<div class="opt"><p class="opt-label">Veličina: <b>' + v.size.id + '</b></p><div class="sizes">' + p.sizes.map(function (z) { return '<button type="button" class="size" data-act="size" data-size="' + z.id + '" aria-pressed="' + (z.id === v.size.id) + '"><b>' + z.id + '</b><span>' + z.dims + '</span><span>' + z.pet + '</span></button>'; }).join('') + '</div></div>' +
       '<div class="add"><div class="stepper"><button type="button" data-act="qty" data-d="-1" aria-label="Smanji količinu">' + I.minus + '</button><span aria-live="polite">' + pk.qty + '</span><button type="button" data-act="qty" data-d="1" aria-label="Povećaj količinu">' + I.plus + '</button></div><button type="button" class="btn" data-act="add">Dodaj u korpu<span class="sum-in">&nbsp;· ' + v.addTotal + '</span></button></div>' +
       '<div class="perks"><div>' + I.truck + c.delivery + '</div><div>' + I.cash + 'Plaćanje pouzećem, gotovinom kuriru</div><div>' + I.back + 'Povrat u roku od 14 dana</div></div>' +
-      '</div></div></div>';
+      '</div></div></div>' +
+      pdpVoices(c, v);
+  }
+
+  function pdpVoices(c, v) {
+    var list = v.testimonials;
+    if (!list.length) return '';
+    return '<section class="pdp-voices" aria-labelledby="pv-h"><div class="wrap"><div class="voices-head"><h2 id="pv-h">Utisci o krevetiću ' + v.p.name + '</h2>' +
+      '<a class="btn" href="#/utisci/' + v.p.id + '">Svi utisci o krevetiću (' + list.length + ')</a></div>' +
+      '<div class="t-grid">' + list.slice(0, 4).map(function (t) { return c.tcard(t, { product: false }); }).join('') + '</div></div></section>';
+  }
+
+  function utisci(c) {
+    var tp = c.tp, p = tp.product;
+    return '<div class="t-page"><div class="wrap"><h1 class="page-title">Vaši utisci</h1><p class="t-lead">Fotografije i poruke koje ste nam slali na Instagramu, svaka o krevetiću koji smo sašili baš za vašeg ljubimca.</p>' +
+      '<nav class="t-filter" aria-label="Utisci po krevetiću">' + tp.filters.map(function (f) { return '<a href="' + f.href + '"' + (f.on ? ' aria-current="page"' : '') + '>' + f.label + ' <span>' + f.count + '</span></a>'; }).join('') + '</nav>' +
+      (p ? '<div class="t-for"><p><b>' + p.name + '</b> <span>' + p.kind + ' · od ' + KM.fmt(p.sizes[0].price) + '</span></p><a class="btn" href="#/p/' + p.id + '">Pogledaj krevetić</a></div>' : '') +
+      '<div class="t-wall">' + tp.list.map(function (t) { return c.tcard(t, { product: !p }); }).join('') + '</div></div></div>';
   }
 
   function swatches(part, label, cur, opts) {
@@ -377,14 +458,14 @@ p { margin: 0; }
     return '<footer class="foot"><div class="wrap"><div class="foot-in"><div><span class="logo-stack">' + KM_LOGO.stack + '</span></div>' +
       '<div><h4>Kupovina</h4><ul><li><a href="#">Dostava i plaćanje</a></li><li><a href="#">Povrat u roku od 14 dana</a></li><li><a href="#">Uslovi kupovine</a></li><li><a href="#">Politika privatnosti</a></li></ul></div>' +
       '<div><h4>Pišite nam</h4><ul><li><a href="https://www.instagram.com/ketty.mon/">Instagram</a></li><li><a href="#">Viber</a></li><li><a href="#">WhatsApp</a></li><li>[Telefon] · [Email]</li></ul></div></div>' +
-      '<div class="legal"><span>© KettyMon · Prodavac: ' + c.seller + ' · Nije u sistemu PDV-a</span><span>Prototip: fotografije, nazivi modela i tkanina, cene, cena dostave i rok dostave su privremeni primeri.</span></div></div></footer>';
+      '<div class="legal"><span>© KettyMon · Prodavac: ' + c.seller + ' · Nije u sistemu PDV-a</span><span>Prototip: fotografije, utisci, nazivi modela i tkanina, cene, cena dostave i rok dostave su privremeni primeri.</span></div></div></footer>';
   }
 
   function act(a, el, ev, state, render) {
     if (a === 'fabricgo') { var pid = el.getAttribute('data-pid'), p = KM.find(pid); var fid = el.getAttribute('data-fabric'), f = KM.fabrics[fid]; state.pick[pid] = { pad: f.pad ? fid : p.pad, shell: f.shell ? fid : p.shell, size: p.sizes[Math.min(1, p.sizes.length - 1)].id, qty: 1, view: 0 }; location.hash = '#/p/' + pid; }
   }
 
-  KM.mount({ header: header, footer: footer, home: home, product: product, cart: cart, checkout: checkout, done: done, act: act });
+  KM.mount({ utisci: utisci, header: header, footer: footer, home: home, product: product, cart: cart, checkout: checkout, done: done, act: act });
 })();
 </script>
 </body>

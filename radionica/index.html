@@ -106,17 +106,52 @@ p { margin: 0; }
 .anat-list p { color: var(--ink-soft); }
 .anatomy h2 { font-size: clamp(32px, 3.4vw, 48px); }
 
-/* Testimonials */
+/* Testimonials: one card, three shapes (photo, words, both) */
 .voices { background: var(--sage); margin-top: clamp(64px, 8vw, 112px); padding: clamp(56px, 7vw, 96px) 0; }
-.voices h2 { font-size: clamp(32px, 3.4vw, 48px); text-align: center; }
-.quotes { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 1fr); gap: 20px; margin-top: 40px; }
-.quotes figure { margin: 0; background: var(--ground); border-radius: 6px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; min-height: 240px; }
-.quotes blockquote { margin: 0; font-family: var(--serif); font-size: 22px; line-height: 1.3; }
-.quotes figcaption { font-size: 14px; color: var(--ink-soft); }
-.quotes .ph blockquote { color: #4E5B4A; font-style: italic; font-size: 18px; }
-.quotes .feature { padding: clamp(28px, 4vw, 56px); }
-.quotes .feature blockquote { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.15; }
-.quotes .ph { background: rgba(252, 251, 249, 0.55); border: 1.5px dashed #9DB58A; }
+.voices-head { display: flex; justify-content: space-between; align-items: end; gap: 16px 24px; flex-wrap: wrap; margin-bottom: 36px; }
+.voices h2 { font-size: clamp(32px, 3.4vw, 48px); max-width: 16ch; }
+.voices-tools { display: flex; align-items: center; gap: 8px; }
+.km-row-toggle { display: inline-flex; align-items: center; gap: 8px; min-height: 50px; padding: 0 18px; border: 1.5px solid rgba(3, 14, 40, 0.28); border-radius: 4px; background: none; font-weight: 500; cursor: pointer; transition: background .2s var(--ease); }
+.km-row-toggle:hover { background: rgba(252, 251, 249, 0.6); }
+.km-t { margin: 0; width: 300px; flex: none; display: flex; flex-direction: column; background: var(--ground); border-radius: 6px; overflow: hidden; }
+.km-t-photo { display: block; aspect-ratio: 1; background: var(--plate); overflow: hidden; }
+.km-t-photo img { width: 100%; height: 100%; object-fit: cover; }
+.km-t-photo + .km-t-words { padding-top: 18px; }
+.km-t-words { margin: 0; padding: 26px 24px 0; font-family: var(--serif); font-size: 19px; line-height: 1.32; letter-spacing: -0.005em; }
+.km-t-words p { text-wrap: pretty; }
+.km-t-cap { margin-top: auto; padding: 16px 24px 20px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 14px; }
+.km-t-pet { font-weight: 600; }
+.km-t-prod { color: var(--ink-soft); text-decoration: underline; text-decoration-color: rgba(60, 69, 89, 0.35); margin-left: auto; }
+.km-t-prod:hover { color: var(--ink); text-decoration-color: currentColor; }
+.km-t--photo .km-t-photo { flex: 1; aspect-ratio: auto; min-height: 300px; }
+.km-t--words .km-t-words { flex: 1; font-size: 25px; line-height: 1.22; padding-top: 30px; }
+.km-row { overflow: hidden; padding: 4px 0; }
+.km-row-track { display: flex; width: max-content; animation: km-row var(--km-row-dur, 120s) linear infinite; }
+.km-row-set { display: flex; align-items: stretch; gap: 20px; padding-right: 20px; }
+.km-row:hover .km-row-track, .km-row:focus-within .km-row-track, .km-row.paused .km-row-track { animation-play-state: paused; }
+@keyframes km-row { to { transform: translate3d(-50%, 0, 0); } }
+
+/* Vaši utisci page and a Product's own Testimonials */
+.t-page { display: flow-root; background: var(--sage); padding: 0 0 clamp(56px, 7vw, 96px); }
+.t-page .page-title { padding-bottom: 12px; }
+.t-lead { max-width: 52ch; font-size: 18px; color: #2E3A33; }
+.t-filter { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 32px; }
+.t-filter a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 999px; background: rgba(252, 251, 249, 0.55); text-decoration: none; font-weight: 500; transition: background .2s var(--ease); }
+.t-filter a:hover { background: var(--ground); }
+.t-filter a[aria-current="page"] { background: var(--ink); color: #fff; }
+.t-filter a span { font-size: 13px; opacity: 0.7; }
+.t-for { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin: -8px 0 28px; padding: 14px 14px 14px 20px; background: var(--ground); border-radius: 6px; }
+.t-for b { font-family: var(--serif); font-size: 20px; font-weight: 600; }
+.t-for span { color: var(--ink-soft); }
+.t-wall { columns: 3 280px; column-gap: 20px; }
+.t-wall .km-t { width: auto; break-inside: avoid; margin-bottom: 20px; }
+.t-wall .km-t--photo .km-t-photo { aspect-ratio: 4 / 5; flex: none; min-height: 0; }
+.t-wall .km-t--words .km-t-words { font-size: 23px; }
+.pdp-voices { background: var(--sage); padding: clamp(48px, 6vw, 80px) 0; }
+.pdp-voices .voices-head { margin-bottom: 28px; }
+.pdp-voices h2 { font-size: clamp(28px, 3vw, 40px); }
+.t-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+.t-grid .km-t { width: auto; }
 
 /* Steps + FAQ */
 .how { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
@@ -228,7 +263,7 @@ p { margin: 0; }
 @media (max-width: 1000px) {
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .anatomy, .pdp, .two-col, .hero-top { grid-template-columns: 1fr; }
-  .quotes { grid-template-columns: 1fr; }
+  .t-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .side, .sumbox { position: static; }
 }
 @media (max-width: 760px) {
@@ -251,11 +286,21 @@ p { margin: 0; }
   .item img { width: 96px; height: 80px; }
   .item .sum { grid-column: 2; }
   .pair { grid-template-columns: 1fr; }
+  .km-t { width: 260px; }
+  .km-t--words .km-t-words { font-size: 22px; }
+  .voices-tools .btn { padding: 0 20px; }
+  .t-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter) 4px; scrollbar-width: none; }
+  .t-grid .km-t { width: 78%; scroll-snap-align: start; }
   .buy .btn .s { display: none; }
   .sz { grid-template-columns: 22px 36px 1fr auto; padding: 0 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .km-row { overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); padding: 4px var(--gutter); }
+  .km-row-track { animation: none !important; }
+  .km-row-set[aria-hidden] { display: none; }
+  .km-row .km-t { scroll-snap-align: start; }
+  .km-row-toggle { display: none; }
 }
 @media (max-width: 760px) { .wordmark svg { height: 26px; } }
 </style>
@@ -309,9 +354,8 @@ p { margin: 0; }
       '<li><span>1</span><div><b>Spoljni deo sa visokim ivicama</b><p>Ljubimac na njih naslanja glavu i oseća se sigurno.</p></div></li>' +
       '<li><span>2</span><div><b>Debeo jastuk unutra</b><p>Dovoljno mekan za spavanje, dovoljno čvrst da ne propada pod težinom.</p></div></li>' +
       '<li><span>3</span><div><b>Dve tkanine po vašem izboru</b><p>Jednu birate za jastuk, drugu za spoljni deo, ili istu za oba. Cena zavisi samo od veličine.</p></div></li></ol></div></div></section>' +
-      '<section class="voices" id="utisci"><div class="wrap"><h2>Šta kažu vlasnici</h2><div class="quotes">' +
-      '<figure class="feature"><blockquote>„Šarko je od prvog dana spavao samo na svom KettyMon krevetiću. Sad ne može da ga namami ni kauč.“</blockquote><figcaption>Šarko, mešanac · primer utiska</figcaption></figure>' +
-      '<figure class="ph"><blockquote>[Sledeći utisak sa Instagrama]</blockquote><figcaption>[Ime ljubimca]</figcaption></figure></div></div></section>' +
+      '<section class="voices" id="utisci" aria-labelledby="utisci-h"><div class="wrap voices-head"><h2 id="utisci-h">Šta kažu vlasnici</h2><div class="voices-tools">' + c.trowToggle() + '<a class="btn" href="#/utisci">Svi utisci</a></div></div>' +
+      c.trow(c.testimonials, 'Utisci vlasnika') + '</section>' +
       '<section class="sec"><div class="wrap"><div class="sec-head"><h2>Kako izgleda kupovina</h2></div><div class="how">' +
       '<div>' + I.phone + '<b>Poručite i čekajte poziv</b><p>Bez registracije i bez kartice. Zovemo vas da potvrdimo porudžbinu.</p></div>' +
       '<div>' + I.needle + '<b>Šijemo i šaljemo</b><p>' + c.delivery + ', na adrese širom Srbije.</p></div>' +
@@ -338,7 +382,24 @@ p { margin: 0; }
       fabrics('pad', 'Jastuk', v.pad, v.padOptions) + fabrics('shell', 'Spoljni deo', v.shell, v.shellOptions) +
       '<p class="lbl">Veličina <span>· prema težini ljubimca</span></p><div class="sizes">' + p.sizes.map(function (z) { return '<button type="button" class="sz" data-act="size" data-size="' + z.id + '" aria-pressed="' + (z.id === v.size.id) + '"><i class="r"></i><b>' + z.id + '</b><span>' + z.dims + ' · ' + z.pet + '</span><b>' + KM.fmt(z.price) + '</b></button>'; }).join('') + '</div>' +
       '<div class="buy"><div class="qty"><button type="button" data-act="qty" data-d="-1" aria-label="Smanji količinu">' + I.minus + '</button><span aria-live="polite">' + pk.qty + '</span><button type="button" data-act="qty" data-d="1" aria-label="Povećaj količinu">' + I.plus + '</button></div><button type="button" class="btn" data-act="add">Dodaj u korpu<span class="s">&nbsp;· ' + v.addTotal + '</span></button></div>' +
-      '<div class="cod-box">' + I.cashS + '<p><b>Plaćanje pouzećem.</b> Zovemo vas da potvrdimo porudžbinu, ' + c.delivery.toLowerCase() + ', a plaćate kuriru.</p></div></div></div></div>';
+      '<div class="cod-box">' + I.cashS + '<p><b>Plaćanje pouzećem.</b> Zovemo vas da potvrdimo porudžbinu, ' + c.delivery.toLowerCase() + ', a plaćate kuriru.</p></div></div></div></div>' +
+      pdpVoices(c, v);
+  }
+
+  function pdpVoices(c, v) {
+    var list = v.testimonials;
+    if (!list.length) return '';
+    return '<section class="pdp-voices" aria-labelledby="pv-h"><div class="wrap"><div class="voices-head"><h2 id="pv-h">Utisci o krevetiću ' + v.p.name + '</h2>' +
+      '<a class="btn" href="#/utisci/' + v.p.id + '">Svi utisci o krevetiću (' + list.length + ')</a></div>' +
+      '<div class="t-grid">' + list.slice(0, 4).map(function (t) { return c.tcard(t, { product: false }); }).join('') + '</div></div></section>';
+  }
+
+  function utisci(c) {
+    var tp = c.tp, p = tp.product;
+    return '<div class="t-page"><div class="wrap"><h1 class="page-title">Vaši utisci</h1><p class="t-lead">Fotografije i poruke koje ste nam slali na Instagramu, svaka o krevetiću koji smo sašili baš za vašeg ljubimca.</p>' +
+      '<nav class="t-filter" aria-label="Utisci po krevetiću">' + tp.filters.map(function (f) { return '<a href="' + f.href + '"' + (f.on ? ' aria-current="page"' : '') + '>' + f.label + ' <span>' + f.count + '</span></a>'; }).join('') + '</nav>' +
+      (p ? '<div class="t-for"><p><b>' + p.name + '</b> <span>' + p.kind + ' · od ' + KM.fmt(p.sizes[0].price) + '</span></p><a class="btn" href="#/p/' + p.id + '">Pogledaj krevetić</a></div>' : '') +
+      '<div class="t-wall">' + tp.list.map(function (t) { return c.tcard(t, { product: !p }); }).join('') + '</div></div></div>';
   }
 
   function sumbox(c, action) {
@@ -378,13 +439,13 @@ p { margin: 0; }
   }
 
   function footer(c) {
-    return '<footer class="foot"><div class="wrap"><div class="foot-in"><div><span class="logo-stack">' + KM_LOGO.stack + '</span><p class="lead">Ručno šiveni krevetići za pse i mačke. Prototip: fotografije, nazivi modela i tkanina, cene, cena dostave i rok dostave su privremeni primeri.</p></div>' +
+    return '<footer class="foot"><div class="wrap"><div class="foot-in"><div><span class="logo-stack">' + KM_LOGO.stack + '</span><p class="lead">Ručno šiveni krevetići za pse i mačke. Prototip: fotografije, utisci, nazivi modela i tkanina, cene, cena dostave i rok dostave su privremeni primeri.</p></div>' +
       '<div><h4>Kupovina</h4><ul><li><a href="#">Dostava i plaćanje</a></li><li><a href="#">Povrat u roku od 14 dana</a></li><li><a href="#">Uslovi kupovine</a></li><li><a href="#">Politika privatnosti</a></li></ul></div>' +
       '<div><h4>Kontakt</h4><ul><li>[Telefon]</li><li>[Email]</li><li><a href="https://www.instagram.com/ketty.mon/">Instagram</a> · <a href="#">Viber</a> · <a href="#">WhatsApp</a></li></ul></div></div>' +
       '<p class="legal">© KettyMon · Prodavac: ' + c.seller + ' · Nije u sistemu PDV-a · Cene su konačne.</p></div></footer>';
   }
 
-  KM.mount({ header: header, footer: footer, home: home, product: product, cart: cart, checkout: checkout, done: done });
+  KM.mount({ header: header, footer: footer, home: home, product: product, cart: cart, checkout: checkout, done: done, utisci: utisci });
 })();
 </script>
 </body>

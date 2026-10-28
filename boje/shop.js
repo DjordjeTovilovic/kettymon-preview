@@ -65,6 +65,30 @@
         { id: 'M', dims: '55 × 50 cm', pet: 'do 7 kg', price: 3490 }] }
   ];
 
+  /* Testimonials: a photo of the pet, the Customer's words, or both, about exactly one Product.
+     Staff enter them by hand from Instagram. They may name the pet, never the Customer.
+     These are invented examples; the stand-in photos are cropped onto the pet with `pos`. */
+  var testimonials = [
+    { id: 't1', pid: 'luna', pet: 'Šarko', photo: 'img/dog-blanket-close.webp', pos: '50% 38%', text: 'Šarko je od prvog dana spavao samo na svom KettyMon krevetiću. Sad ne može da ga namami ni kauč.' },
+    { id: 't7', pid: 'oblak', pet: 'Sultan', photo: 'img/room-wide-saluki.webp', pos: '79% 70%' },
+    { id: 't12', pid: 'medo', pet: 'Rex', text: 'Konačno krevet u koji Rex stane ceo, a da mu šape ne vise napolju.' },
+    { id: 't10', pid: 'klupko', pet: 'Mica', photo: 'img/cat-round-sherpa.webp', pos: '38% 40%', text: 'Mica u njemu spava sklupčana po ceo dan. Rub je taman toliko visok koliko ona voli.' },
+    { id: 't2', pid: 'luna', pet: 'Bruno', text: 'Stigao je u petak, a u subotu ujutru Bruno već nije hteo da izađe iz njega. Hvala vam!' },
+    { id: 't6', pid: 'oblak', pet: 'Mrvica', photo: 'img/puppy-sherpa.webp', pos: '42% 60%', text: 'Mrvica se ne odvaja od njega. Nosimo ga sa sobom i kad idemo kod bake.' },
+    { id: 't15', pid: 'roza', pet: 'Pegica', photo: 'img/cat-pink-cushion.webp', pos: '52% 55%', text: 'Roze nam je bio rizik, ali Pegica je odmah legla i nije se pomerila do jutra.' },
+    { id: 't13', pid: 'medo', pet: 'Bela', photo: 'img/bed-oval-room.webp', pos: '50% 72%' },
+    { id: 't9', pid: 'oblak', pet: 'Žuća', text: 'Žuća ima četrnaest godina i teško joj je da se penje. U ovaj ulazi sama.' },
+    { id: 't3', pid: 'luna', pet: 'Maza', photo: 'img/bed-bolster-plants.webp', pos: '50% 52%' },
+    { id: 't14', pid: 'mezimce', pet: 'Kiki', photo: 'img/cushion-window.webp', pos: '44% 74%', text: 'Kupili smo ga za štene, a sada u njemu spavaju i Kiki i mačka.' },
+    { id: 't4', pid: 'luna', text: 'Ovo nam je drugi krevetić od vas. Prvi je posle tri godine i dalje kao nov ❤️' },
+    { id: 't11', pid: 'klupko', pet: 'Tigar', photo: 'img/cat-fireplace.webp', pos: '42% 55%' },
+    { id: 't5', pid: 'luna', pet: 'Lord', photo: 'img/dog-large-bed.webp', pos: '50% 44%', text: 'Lord je veliki pas, a ovo je prvi krevet koji mu je zaista dovoljno velik.' },
+    { id: 't16', pid: 'roza', text: 'Stigao je za četiri dana, šavovi su uredni, a mačka ga je zauzela pre nego što smo skinuli kesu.' },
+    { id: 't8', pid: 'oblak', pet: 'Tara', text: 'Tara ga je prvo samo njušila, a već treće večeri nije htela da spava nigde drugde.' }
+  ];
+  var T_MIN_ON_PRODUCT = 4;
+  function testimonialsFor(pid) { return testimonials.filter(function (t) { return t.pid === pid; }); }
+
   var SHIPPING_FEE = 450;
   var FREE_FROM = 10000;
   var DELIVERY = 'Šaljemo za 3–7 radnih dana';
@@ -88,6 +112,33 @@
       '<img class="km-shell" src="' + sf.img + '" alt=""><img class="km-pad" src="' + pf.img + '" alt=""></span>';
   }
 
+  /* One Testimonial as a figure. The Product link is left out where the page is already that Product's.
+     `copy` marks the duplicate set of a moving row: hidden from assistive tech and out of the tab order. */
+  function tcard(t, opts) {
+    opts = opts || {};
+    var p = find(t.pid);
+    var kind = t.photo && t.text ? 'both' : t.photo ? 'photo' : 'words';
+    var who = t.pet ? t.pet + ' na krevetiću ' + p.name : 'Ljubimac na krevetiću ' + p.name;
+    var tab = opts.copy ? ' tabindex="-1"' : '';
+    return '<figure class="km-t km-t--' + kind + '">' +
+      (t.photo ? '<span class="km-t-photo"><img src="' + t.photo + '" alt="' + esc(who) + '" loading="lazy" style="object-position:' + (t.pos || '50% 50%') + '"></span>' : '') +
+      (t.text ? '<blockquote class="km-t-words"><p>„' + esc(t.text) + '“</p></blockquote>' : '') +
+      '<figcaption class="km-t-cap">' + (t.pet ? '<span class="km-t-pet">' + esc(t.pet) + '</span>' : '') +
+      (opts.product === false ? '' : '<a class="km-t-prod" href="#/p/' + p.id + '"' + tab + '>Krevetić ' + p.name + '</a>') + '</figcaption></figure>';
+  }
+
+  /* The homepage's slowly moving row: the list twice over so the loop has no seam, and a control to stop it. */
+  function trow(list, label) {
+    var set = function (copy) { return '<div class="km-row-set"' + (copy ? ' aria-hidden="true"' : '') + '>' + list.map(function (t) { return tcard(t, { copy: copy }); }).join('') + '</div>'; };
+    return '<div class="km-row' + (state.rowPaused ? ' paused' : '') + '" role="region" aria-label="' + esc(label || 'Vaši utisci') + '" style="--km-row-dur:' + list.length * 8 + 's"><div class="km-row-track">' + set(false) + set(true) + '</div></div>';
+  }
+  function trowToggle(cls) {
+    var on = !state.rowPaused;
+    return '<button type="button" class="' + (cls || 'km-row-toggle') + '" data-act="trow" aria-pressed="' + !on + '">' +
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' + (on ? '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>' : '<path d="M7 5.5v13a1 1 0 0 0 1.5.86l11-6.5a1 1 0 0 0 0-1.72l-11-6.5A1 1 0 0 0 7 5.5Z"/>') + '</svg>' +
+      '<span>' + (on ? 'Zaustavi' : 'Pokreni') + '</span></button>';
+  }
+
   function load(key, fallback) { try { var v = sessionStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; } }
   function save(key, v) { try { sessionStorage.setItem(key, JSON.stringify(v)); } catch (e) { /* storage unavailable: keep in memory */ } }
 
@@ -96,7 +147,8 @@
     coll: '',
     pick: {},
     cart: load('km-cart', []).filter(function (l) { var f = fabrics[l.pad], g = fabrics[l.shell]; return f && f.pad && g && g.shell && find(l.pid); }),
-    lastOrder: null
+    lastOrder: null,
+    rowPaused: false
   };
 
   function pickFor(p) {
@@ -137,7 +189,19 @@
       padOptions: options(padIds, pk.pad), shellOptions: options(shellIds, pk.shell),
       fabricText: fabricText(pk.pad, pk.shell), pair: pair(pk.shell, pk.pad),
       price: fmt(z.price), addTotal: fmt(z.price * pk.qty), sizeLabel: sizeLabel(p),
-      gallery: gallery, view: Math.min(pk.view, gallery.length - 1)
+      gallery: gallery, view: Math.min(pk.view, gallery.length - 1),
+      testimonials: (function (l) { return l.length >= T_MIN_ON_PRODUCT ? l : []; })(testimonialsFor(p.id))
+    };
+  }
+
+  /* The "Vaši utisci" page: every Testimonial, or one Product's. */
+  function testimonialPage(pid) {
+    var p = pid ? find(pid) : null;
+    return {
+      list: p ? testimonialsFor(pid) : testimonials, product: p, total: testimonials.length,
+      filters: [{ id: '', label: 'Svi', count: testimonials.length, on: !p, href: '#/utisci' }].concat(products.map(function (q) {
+        return { id: q.id, label: q.name, count: testimonialsFor(q.id).length, on: !!p && p.id === q.id, href: '#/utisci/' + q.id };
+      }).filter(function (f) { return f.count; }))
     };
   }
 
@@ -148,6 +212,7 @@
     if (parts[0] === 'korpa') return { name: 'cart' };
     if (parts[0] === 'porucivanje') return { name: 'checkout' };
     if (parts[0] === 'hvala') return { name: 'done' };
+    if (parts[0] === 'utisci') return { name: 'utisci', pid: find(parts[1]) ? parts[1] : '' };
     if (parts[0] === 'kolekcija') return { name: 'home', anchor: 'kolekcija' };
     return { name: 'home', anchor: parts[0] || '' };
   }
@@ -160,12 +225,14 @@
     var r = state.route;
     var ctx = { state: state, cart: cartView(), fmt: fmt, collection: COLLECTION,
       filterNote: state.coll ? 'Kolekcija ' + state.coll : '', esc: esc, sizeLabel: sizeLabel, fabrics: fabrics, fabricIds: fabricIds, pair: pair,
-      delivery: DELIVERY, freeFrom: fmt(FREE_FROM), fee: fmt(SHIPPING_FEE), seller: SELLER };
+      delivery: DELIVERY, freeFrom: fmt(FREE_FROM), fee: fmt(SHIPPING_FEE), seller: SELLER,
+      testimonials: testimonials, tcard: tcard, trow: trow, trowToggle: trowToggle };
     var main;
     if (r.name === 'product') { ctx.pv = productView(find(r.id)); main = views.product(ctx); }
     else if (r.name === 'cart') main = views.cart(ctx);
     else if (r.name === 'checkout') main = ctx.cart.empty ? views.cart(ctx) : views.checkout(ctx);
     else if (r.name === 'done') { ctx.order = state.lastOrder; main = views.done(ctx); }
+    else if (r.name === 'utisci') { ctx.tp = testimonialPage(r.pid); main = views.utisci(ctx); }
     else { ctx.products = catalogue().map(function (p) { return Object.assign({ sizeLabel: sizeLabel(p), from: 'od ' + fmt(p.sizes[0].price) }, p); }); main = views.home(ctx); }
     root.innerHTML = views.header(ctx) + '<main id="glavno" tabindex="-1">' + main + '</main>' + views.footer(ctx);
     if (views.after) views.after(ctx, root);
@@ -208,6 +275,12 @@
         var i = +el.getAttribute('data-i');
         state.cart[i].qty = Math.max(1, Math.min(9, state.cart[i].qty + (+el.getAttribute('data-d'))));
         save('km-cart', state.cart); render(); break;
+      case 'trow':
+        state.rowPaused = !state.rowPaused;
+        root.querySelectorAll('.km-row').forEach(function (row) { row.classList.toggle('paused', state.rowPaused); });
+        var fresh = document.createElement('div'); fresh.innerHTML = trowToggle();
+        el.setAttribute('aria-pressed', String(state.rowPaused)); el.innerHTML = fresh.firstChild.innerHTML;
+        break;
       case 'remove':
         state.cart.splice(+el.getAttribute('data-i'), 1); save('km-cart', state.cart); render(); break;
       default: if (views.act) views.act(a, el, ev, state, render);
@@ -245,5 +318,6 @@
     render({ scroll: !!state.route.anchor });
   }
 
-  window.KM = { mount: mount, fmt: fmt, products: products, fabrics: fabrics, fabricIds: fabricIds, pair: pair, find: find, go: go, render: function () { render(); }, state: state };
+  window.KM = { mount: mount, fmt: fmt, products: products, fabrics: fabrics, fabricIds: fabricIds, pair: pair, find: find,
+    testimonials: testimonials, tcard: tcard, trow: trow, go: go, render: function () { render(); }, state: state };
 })();

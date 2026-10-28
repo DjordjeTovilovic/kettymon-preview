@@ -120,9 +120,6 @@ p { margin: 0; }
 .fabric-row figcaption { margin-top: 12px; font-size: 15px; font-weight: 400; text-align: center; }
 
 /* Testimonial + service */
-.voice { padding: clamp(72px, 10vw, 144px) 0 clamp(48px, 6vw, 80px); text-align: center; }
-.voice blockquote { margin: 0 auto; max-width: 22ch; font-family: var(--display); font-size: clamp(30px, 3.6vw, 52px); line-height: 1.15; text-wrap: balance; }
-.voice cite { display: block; margin-top: 24px; font-style: normal; font-size: 15px; color: var(--ink-soft); }
 .service { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
 .service div { display: flex; gap: 14px; align-items: flex-start; padding: 28px 24px 28px 0; }
 .service div + div { padding-left: 24px; border-left: 1px solid var(--line); }
@@ -291,6 +288,70 @@ details.more p { padding-bottom: 18px; max-width: 46ch; color: #48463F; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
 @media (max-width: 760px) { .wordmark svg { height: 26px; } }
+/* Testimonials: one card, three shapes (photo, words, both) */
+:root { --t-band: var(--sand); --t-card: var(--tile); --t-ink: var(--ink); --t-radius: 8px; --t-photo: var(--ground); --t-quote: var(--display); --t-quote-weight: 400; --t-quote-size: 19px; --t-quote-big: 26px; --t-quote-track: -0.005em; --t-cap: var(--ink-soft); --t-gap: 16px; --t-chip: rgba(255, 255, 255, 0.6); --t-chip-hover: #FFFFFF; --t-chip-on: var(--slate); --t-chip-on-ink: #FFFFFF; --t-chip-radius: 999px; }
+.voices { background: var(--t-band); margin-top: clamp(64px, 8vw, 112px); padding: clamp(56px, 7vw, 96px) 0; }
+.voices-head { display: flex; justify-content: space-between; align-items: end; gap: 16px 24px; flex-wrap: wrap; margin-bottom: 36px; }
+.voices-head h2 { font-size: clamp(32px, 3.4vw, 48px); }
+.voices-tools { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.km-row-toggle svg { flex: none; }
+.km-t { margin: 0; width: 300px; flex: none; display: flex; flex-direction: column; background: var(--t-card); border-radius: var(--t-radius); overflow: hidden; color: var(--t-ink); }
+.km-t-photo { display: block; aspect-ratio: 1; background: var(--t-photo); overflow: hidden; }
+.km-t-photo img { width: 100%; height: 100%; object-fit: cover; }
+.km-t-words { margin: 0; padding: 26px 24px 0; font-family: var(--t-quote); font-weight: var(--t-quote-weight); font-size: var(--t-quote-size); line-height: 1.32; letter-spacing: var(--t-quote-track); }
+.km-t-photo + .km-t-words { padding-top: 18px; }
+.km-t-words p { text-wrap: pretty; }
+.km-t-cap { margin-top: auto; padding: 16px 24px 20px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 14px; }
+.km-t-pet { font-weight: 600; }
+.km-t-prod { margin-left: auto; color: var(--t-cap); text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); }
+.km-t-prod:hover { color: var(--t-ink); text-decoration-color: currentColor; }
+.km-t--photo .km-t-photo { flex: 1; aspect-ratio: auto; min-height: 300px; }
+.km-t--words .km-t-words { flex: 1; font-size: var(--t-quote-big); line-height: 1.22; padding-top: 30px; }
+.km-row { overflow: hidden; padding: 4px 0; }
+.km-row-track { display: flex; width: max-content; animation: km-row var(--km-row-dur, 120s) linear infinite; }
+.km-row-set { display: flex; align-items: stretch; gap: var(--t-gap); padding-right: var(--t-gap); }
+.km-row:hover .km-row-track, .km-row:focus-within .km-row-track, .km-row.paused .km-row-track { animation-play-state: paused; }
+@keyframes km-row { to { transform: translate3d(-50%, 0, 0); } }
+
+/* Vaši utisci page and a Product's own Testimonials */
+.t-page { display: flow-root; background: var(--t-band); padding: 0 0 clamp(56px, 7vw, 96px); }
+.t-lead { max-width: 52ch; font-size: 18px; color: var(--t-cap); }
+.t-filter { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 32px; }
+.t-filter a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: var(--t-chip-radius); background: var(--t-chip); text-decoration: none; transition: background .2s var(--ease), color .2s var(--ease); }
+.t-filter a:hover { background: var(--t-chip-hover); }
+.t-filter a[aria-current="page"] { background: var(--t-chip-on); color: var(--t-chip-on-ink); }
+.t-filter a span { font-size: 13px; opacity: 0.72; }
+.t-for { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin: -8px 0 28px; padding: 14px 14px 14px 20px; background: var(--t-card); border-radius: var(--t-radius); }
+.t-for b { font-family: var(--t-quote); font-weight: var(--t-quote-weight); font-size: 22px; }
+.t-for span { color: var(--t-cap); }
+.t-wall { columns: 3 280px; column-gap: var(--t-gap); }
+.t-wall .km-t { width: auto; break-inside: avoid; margin-bottom: var(--t-gap); }
+.t-wall .km-t--photo .km-t-photo { flex: none; aspect-ratio: 4 / 5; min-height: 0; }
+.pdp-voices { background: var(--t-band); padding: clamp(48px, 6vw, 80px) 0; }
+.pdp-voices .voices-head { margin-bottom: 28px; }
+.t-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--t-gap); align-items: stretch; }
+.t-grid .km-t { width: auto; }
+.km-t-pet { font-weight: 600; }
+.t-filter a { font-weight: 500; }
+.t-page .page-title { padding-bottom: 12px; }
+.km-row-toggle { background: none; border: 1px solid var(--slate); color: var(--ink); }
+.km-row-toggle:hover { background: rgba(255, 255, 255, 0.5); }
+@media (max-width: 1000px) {
+  .t-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .km-t { width: 260px; }
+  .km-t--words .km-t-words { font-size: calc(var(--t-quote-big) - 3px); }
+  .t-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter) 4px; scrollbar-width: none; }
+  .t-grid .km-t { width: 78%; scroll-snap-align: start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .km-row { overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); padding: 4px var(--gutter); }
+  .km-row-track { animation: none !important; }
+  .km-row-set[aria-hidden] { display: none; }
+  .km-row .km-t { scroll-snap-align: start; }
+  .km-row-toggle { display: none; }
+}
 </style>
 </head>
 <body>
@@ -355,7 +416,8 @@ details.more p { padding-bottom: 18px; max-width: 46ch; color: #48463F; }
       '<section class="story" id="kolekcija"><img src="img/cat-fireplace.webp" alt="Mačka spava u bež pliš krevetiću kraj kamina" loading="lazy"><div class="wrap"><div class="story-copy"><h2>Poznato. Ali novo.</h2><p>Omiljeni oblici u novim tkaninama. Nova KettyMon kolekcija je u izradi.</p><a class="pill white" href="#/proizvodi" data-act="browse" data-coll="Poznato. Ali novo.">Pogledaj kolekciju</a></div></div></section>' +
       '<section class="materials" id="tkanine"><div class="wrap materials-in"><div><h2>Pažljivo odabrani materijali</h2><p class="lead">Svaki krevetić ima dva dela: mekan jastuk i spoljni deo sa ivicama. Za svaki deo birate tkaninu, može i istu za oba. Cena zavisi samo od veličine.</p></div>' +
       '<div class="fabric-row">' + c.fabricIds.map(function (k) { var f = c.fabrics[k]; return '<figure><img src="' + f.img + '" alt="Tkanina ' + f.name + ' izbliza" loading="lazy"><figcaption>' + f.name + '<small>' + (f.pad && f.shell ? 'Jastuk i spoljni deo' : f.pad ? 'Samo jastuk' : 'Samo spoljni deo') + '</small></figcaption></figure>'; }).join('') + '</div></div></section>' +
-      '<section class="voice" id="utisci"><div class="wrap"><blockquote>„Šarko je od prvog dana spavao samo na svom KettyMon krevetiću. Sad ne može da ga namami ni kauč.“</blockquote><cite>Šarko, mešanac · primer utiska</cite></div></section>' +
+      '<section class="voices" id="utisci" aria-labelledby="utisci-h"><div class="wrap voices-head"><h2 id="utisci-h">Vaši utisci</h2><div class="voices-tools">' + c.trowToggle('pill km-row-toggle') + '<a class="pill slate" href="#/utisci">Svi utisci</a></div></div>' +
+      c.trow(c.testimonials, 'Vaši utisci') + '</section>' +
       '<div class="wrap"><div class="service">' +
       '<div>' + I.cash + '<p><b>Plaćanje pouzećem</b><span>Plaćate kuriru kada paket stigne.</span></p></div>' +
       '<div>' + I.truck + '<p><b>' + c.delivery + '</b><span>Dostava na adrese širom Srbije.</span></p></div>' +
@@ -378,7 +440,24 @@ details.more p { padding-bottom: 18px; max-width: 46ch; color: #48463F; }
       '<ul class="facts"><li>' + I.truck + c.delivery + '</li><li>' + I.cash + 'Plaćanje pouzećem</li><li>' + I.back + 'Povrat u roku od 14 dana</li></ul>' +
       '<details class="more"><summary>Opis ' + I.plus + '</summary><p>' + p.blurb + ' Jastuk i spoljni deo šijemo u tkaninama koje izaberete, u veličini koja odgovara vašem ljubimcu.</p></details>' +
       '<details class="more"><summary>Dostava i plaćanje ' + I.plus + '</summary><p>Šaljemo kurirskom službom na adrese širom Srbije. Pre slanja vas zovemo da potvrdimo porudžbinu, a plaćate gotovinom kuriru. Dostava košta ' + c.fee + ', a za porudžbine od ' + c.freeFrom + ' je besplatna.</p></details>' +
-      '</div></div></div>';
+      '</div></div></div>' +
+      pdpVoices(c, v);
+  }
+
+  function pdpVoices(c, v) {
+    var list = v.testimonials;
+    if (!list.length) return '';
+    return '<section class="pdp-voices" aria-labelledby="pv-h"><div class="wrap"><div class="voices-head"><h2 id="pv-h">Utisci o krevetiću ' + v.p.name + '</h2>' +
+      '<a class="pill slate" href="#/utisci/' + v.p.id + '">Svi utisci o krevetiću (' + list.length + ')</a></div>' +
+      '<div class="t-grid">' + list.slice(0, 4).map(function (t) { return c.tcard(t, { product: false }); }).join('') + '</div></div></section>';
+  }
+
+  function utisci(c) {
+    var tp = c.tp, p = tp.product;
+    return '<div class="t-page"><div class="wrap"><h1 class="page-title">Vaši utisci</h1><p class="t-lead">Fotografije i poruke koje ste nam slali na Instagramu, svaka o krevetiću koji smo sašili baš za vašeg ljubimca.</p>' +
+      '<nav class="t-filter" aria-label="Utisci po krevetiću">' + tp.filters.map(function (f) { return '<a href="' + f.href + '"' + (f.on ? ' aria-current="page"' : '') + '>' + f.label + ' <span>' + f.count + '</span></a>'; }).join('') + '</nav>' +
+      (p ? '<div class="t-for"><p><b>' + p.name + '</b> <span>' + p.kind + ' · od ' + KM.fmt(p.sizes[0].price) + '</span></p><a class="pill slate" href="#/p/' + p.id + '">Pogledaj krevetić</a></div>' : '') +
+      '<div class="t-wall">' + tp.list.map(function (t) { return c.tcard(t, { product: !p }); }).join('') + '</div></div></div>';
   }
 
   function swatches(part, label, cur, opts) {
@@ -433,7 +512,7 @@ details.more p { padding-bottom: 18px; max-width: 46ch; color: #48463F; }
   }
 
   function footer(c) {
-    return '<footer class="foot"><div class="wrap"><div class="foot-in"><div><span class="logo-stack">' + KM_LOGO.stack + '</span><p class="note">Premium krevetići za pse i mačke. Ovo je prototip: fotografije, nazivi modela i tkanina, cene, cena dostave i rok dostave su privremeni primeri.</p></div>' +
+    return '<footer class="foot"><div class="wrap"><div class="foot-in"><div><span class="logo-stack">' + KM_LOGO.stack + '</span><p class="note">Premium krevetići za pse i mačke. Ovo je prototip: fotografije, utisci, nazivi modela i tkanina, cene, cena dostave i rok dostave su privremeni primeri.</p></div>' +
       '<div><h4>Kupovina</h4><ul><li><a href="#">Dostava i plaćanje</a></li><li><a href="#">Povrat u roku od 14 dana</a></li><li><a href="#">Uslovi kupovine</a></li><li><a href="#">Politika privatnosti</a></li></ul></div>' +
       '<div><h4>Kontakt</h4><ul><li>[Telefon]</li><li>[Email]</li><li><a href="https://www.instagram.com/ketty.mon/">Instagram</a> · <a href="#">Viber</a> · <a href="#">WhatsApp</a></li></ul></div></div>' +
       '<p class="legal">© KettyMon · Prodavac: ' + c.seller + ' · Nije u sistemu PDV-a · Cene su konačne. Plaćanje pouzećem.</p></div></footer>';
@@ -464,7 +543,7 @@ details.more p { padding-bottom: 18px; max-width: 46ch; color: #48463F; }
 
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && document.querySelector('.drawer')) KM.render(); });
 
-  KM.mount({ closeMenu: closeMenu, header: header, footer: footer, home: home, product: product, cart: cart, checkout: checkout, done: done, added: added, act: act, after: after });
+  KM.mount({ utisci: utisci, closeMenu: closeMenu, header: header, footer: footer, home: home, product: product, cart: cart, checkout: checkout, done: done, added: added, act: act, after: after });
 })();
 </script>
 </body>
