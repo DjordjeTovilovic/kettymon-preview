@@ -87,8 +87,9 @@ p { margin: 0; }
 .caption .row { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 18px; flex-wrap: wrap; }
 .caption .price { font-family: var(--serif); font-size: 26px; }
 .caption .more { margin-top: 16px; }
-.frame .arrows { position: absolute; right: clamp(16px, 3vw, 40px); bottom: clamp(16px, 3vw, 40px); background: var(--white); padding: 6px; outline: 1px solid var(--line); outline-offset: -3px; }
-.side-r .arrows { right: auto; left: clamp(16px, 3vw, 40px); }
+.frame .arrows { position: absolute; left: clamp(16px, 3vw, 40px); bottom: clamp(16px, 3vw, 40px); background: var(--white); padding: 6px; outline: 1px solid var(--line); outline-offset: -3px; }
+/* the arrows stay bottom-left on every model; a left-hand caption sits above them */
+.frame:not(.side-r) .caption { bottom: calc(clamp(16px, 3vw, 40px) + 68px); }
 .frame .arrows button { border-color: transparent; }
 .frame .arrows button:hover { border-color: var(--line); }
 
@@ -255,9 +256,12 @@ p { margin: 0; }
   .hero .wrap { padding: 0; }
   .frame { height: auto; display: flex; flex-direction: column; overflow: visible; }
   .frame > img { position: relative; height: 54svh; min-height: 300px; }
+  .frame { overflow-x: clip; }
+  .frame > img.hero-old { position: absolute; top: 0; left: 0; }
   .caption { position: relative; left: 0; bottom: 0; width: 100%; padding: 22px var(--gutter) 6px; }
   .caption .row .btn { flex: 1; }
-  .frame .arrows, .side-r .arrows { top: calc(54svh - 64px); bottom: auto; right: 12px; left: auto; }
+  .frame .arrows { top: calc(54svh - 64px); bottom: auto; left: 12px; }
+  .frame:not(.side-r) .caption { bottom: 0; }
   .side-r .caption { right: 0; }
   .rail { grid-auto-columns: 72%; }
   .band .cols { grid-template-columns: 1fr; }
