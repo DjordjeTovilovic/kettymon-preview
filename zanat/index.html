@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="sr-Latn">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KettyMon Zanat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Oranienbaum&display=swap">
+<style>
+:root {
+  --stone: #ECE6DC;
+  --porcelain: #F6F2EC;
+  --ink: #2A221B;
+  --ink-soft: #5A4D40;
+  --bronze: #6E4F2C;
+  --gold: #957148;
+  --gold-light: #D9BE8E;
+  --line: #D6CBBB;
+  --display: 'Oranienbaum', 'Times New Roman', serif;
+  --sans: 'Jost', system-ui, sans-serif;
+  --gutter: clamp(16px, 4vw, 56px);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scrollbar-color: #C9BBA6 var(--stone); accent-color: var(--ink); caret-color: var(--ink); }
+body { margin: 0; background: var(--stone); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; font-variant-numeric: tabular-nums; }
+::selection { background: #DCC7A2; color: var(--ink); }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; line-height: 1.05; letter-spacing: 0; text-wrap: balance; }
+p { margin: 0; }
+.wrap { max-width: 1440px; margin: 0 auto; padding: 0 var(--gutter); }
+.caps { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; }
+
+.bar { position: sticky; top: 0; z-index: 20; background: var(--porcelain); border-bottom: 1px solid var(--line); }
+.bar-in { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 76px; }
+.nav { display: flex; gap: 28px; }
+.nav a, .link { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; }
+.nav a { padding: 10px 0; border-bottom: 1px solid transparent; transition: border-color .3s var(--ease); }
+.nav a:hover { border-color: var(--gold); }
+.wordmark { text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; gap: 4px; }
+.wordmark { --logo-gold: #957148; --logo-ink: #6E4F2C; }
+.wordmark svg { display: block; height: 34px; width: auto; }
+.logo-stack { display: block; width: 190px; --logo-gold: #C9A46E; --logo-ink: #DCC497; }
+.logo-stack svg { display: block; width: 100%; height: auto; }
+.tools { display: flex; justify-content: flex-end; align-items: center; gap: 18px; }
+.langs { display: flex; gap: 2px; }
+.langs button { border: 0; background: none; padding: 10px 6px; font-size: 12px; font-weight: 500; letter-spacing: 0.14em; cursor: pointer; color: var(--ink-soft); }
+.langs button[aria-pressed="true"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 6px; }
+.langs button:disabled { cursor: not-allowed; opacity: 0.55; }
+.bag { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 0.18em; }
+.mnav { display: none; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 30px; background: var(--ink); color: var(--porcelain); border: 1px solid var(--ink); text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; transition: background .3s var(--ease), color .3s var(--ease); }
+.btn:hover { background: var(--bronze); border-color: var(--bronze); }
+.btn.ghost { background: transparent; color: var(--ink); }
+.btn.ghost:hover { background: var(--ink); color: var(--porcelain); }
+.link { display: inline-block; padding: 6px 0; border-bottom: 1px solid currentColor; }
+.link:hover { color: var(--bronze); }
+.txt { border: 0; background: none; padding: 6px 0; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+
+/* stage: one numbered model at a time */
+.stage { position: relative; height: clamp(560px, calc(100svh - 76px - 66px), 860px); overflow: hidden; background: #CDBFA9; }
+.stage > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.stage > img.swap { animation: settle 1s var(--ease); }
+@keyframes settle { from { opacity: 0; transform: scale(1.025); } to { opacity: 1; transform: none; } }
+.panel { z-index: 2; }
+.panel.swap > * { animation: lift .6s var(--ease) both; }
+.panel.swap > :nth-child(2) { animation-delay: .04s; }
+.panel.swap > :nth-child(n+3) { animation-delay: .08s; }
+@keyframes lift { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.panel { position: absolute; left: var(--gutter); bottom: 40px; width: min(440px, calc(100% - 2 * var(--gutter))); background: var(--porcelain); padding: 32px 34px 30px; box-shadow: 0 18px 40px -24px rgba(42, 34, 27, 0.55); }
+.panel .no { font-family: var(--display); font-size: 28px; color: var(--gold); line-height: 1; }
+.panel h1 { font-size: clamp(38px, 3.4vw, 50px); margin-top: 10px; }
+.panel .blurb { margin-top: 12px; color: var(--ink-soft); }
+.panel .sizes { display: flex; gap: 6px; margin-top: 20px; flex-wrap: wrap; }
+.chip { min-width: 52px; min-height: 44px; padding: 0 12px; border: 1px solid var(--line); background: transparent; cursor: pointer; font-size: 13px; font-weight: 500; letter-spacing: 0.08em; transition: border-color .2s var(--ease), background .2s var(--ease); }
+.chip:hover { border-color: var(--ink); }
+.chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--porcelain); }
+.panel .fit { margin-top: 10px; font-size: 14px; color: var(--ink-soft); }
+.panel .row { display: flex; align-items: center; gap: 22px; margin-top: 22px; flex-wrap: wrap; }
+.panel .price { font-family: var(--display); font-size: 30px; line-height: 1; }
+.panel .acts { display: flex; align-items: center; gap: 22px; margin-top: 20px; flex-wrap: wrap; }
+.index { background: var(--porcelain); border-bottom: 1px solid var(--line); }
+.index ol { list-style: none; margin: 0 auto; padding: 0 var(--gutter); max-width: 1440px; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.index button { width: 100%; min-height: 66px; border: 0; border-top: 2px solid transparent; background: none; cursor: pointer; display: flex; align-items: baseline; gap: 10px; padding: 0 8px; text-align: left; transition: border-color .3s var(--ease); }
+.index button span { font-family: var(--display); color: var(--bronze); font-size: 18px; }
+.index button b { font-weight: 500; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; }
+.index button:hover { border-top-color: var(--line); }
+.index button[aria-current="true"] { border-top-color: var(--gold); }
+.added { position: fixed; z-index: 30; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--ink); color: var(--porcelain); padding: 14px 18px 14px 22px; display: flex; gap: 18px; align-items: center; font-size: 14px; box-shadow: 0 16px 36px -18px rgba(42, 34, 27, 0.7); animation: rise .5s var(--ease); }
+.added a { color: var(--gold-light); font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; }
+@keyframes rise { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+.sec { padding: clamp(72px, 9vw, 128px) 0 0; }
+.sec-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+.sec-head h2 { font-size: clamp(36px, 4vw, 56px); }
+.sec-head p { max-width: 46ch; color: var(--ink-soft); margin-top: 14px; }
+.tabs { display: flex; gap: 26px; }
+.tabs button { border: 0; border-bottom: 1px solid transparent; background: none; padding: 10px 0; cursor: pointer; font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
+.tabs button[aria-pressed="true"] { color: var(--ink); border-color: var(--gold); }
+.note-row { padding-top: 18px; color: var(--ink-soft); }
+.model { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 5vw, 80px); align-items: center; padding: clamp(40px, 5vw, 64px) 0; border-bottom: 1px solid var(--line); }
+.model:nth-child(even) .photo { order: 2; }
+.model .photo { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #D8CCBA; }
+.model .photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.model:hover .photo img { transform: scale(1.03); }
+.model .no { font-family: var(--display); font-size: 26px; color: var(--gold); }
+.model h3 { font-size: clamp(34px, 3.4vw, 48px); margin-top: 6px; }
+.model h3 a { text-decoration: none; }
+.model .coll { display: inline-block; margin-top: 12px; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bronze); }
+.model .blurb { margin-top: 16px; max-width: 44ch; color: var(--ink-soft); }
+.model .facts { display: flex; gap: 22px; margin-top: 20px; font-size: 15px; }
+.model .pair { display: flex; align-items: center; gap: 16px; margin-top: 22px; font-size: 14px; line-height: 1.5; color: var(--ink-soft); }
+.model .pair .km-pair { --pair: 64px; }
+.model .pair .km-pad { box-shadow: 0 0 0 3px var(--stone); }
+.model .link { margin-top: 26px; }
+.empty-row { padding: 48px 0; color: var(--ink-soft); }
+
+.fabrics-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-bottom: 1px solid var(--line); }
+.fabrics-row figure { margin: 0; padding: 32px 24px 28px; display: flex; gap: 20px; align-items: center; }
+.fabrics-row figure:first-child { padding-left: 0; }
+.fabrics-row figure:last-child { padding-right: 0; }
+.fabrics-row figure + figure { border-left: 1px solid var(--line); }
+.fabrics-row img { flex: none; width: 120px; height: 120px; object-fit: cover; }
+.fabrics-row figcaption { min-width: 0; }
+.fabrics-row b { display: block; font-family: var(--display); font-weight: 400; font-size: 28px; line-height: 1.1; }
+.fabrics-row span { display: block; margin-top: 6px; font-size: 14px; color: var(--ink-soft); }
+.coll-band { position: relative; margin-top: clamp(72px, 9vw, 128px); min-height: clamp(420px, 52vw, 640px); display: flex; align-items: flex-end; color: var(--porcelain); }
+.coll-band img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.coll-band::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(28, 22, 17, 0.72), rgba(28, 22, 17, 0) 60%); }
+.coll-band .wrap { position: relative; z-index: 1; width: 100%; padding-bottom: clamp(36px, 5vw, 64px); }
+.coll-band h2 { font-size: clamp(40px, 5vw, 72px); }
+.coll-band .txt-light { margin-top: 14px; max-width: 46ch; color: #EFE6D8; }
+.coll-band .link { margin-top: 22px; color: var(--porcelain); }
+
+.service { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 40px; border-top: 1px solid var(--line); }
+.service div { padding: 30px 32px 6px 0; }
+.service div + div { padding-left: 32px; border-left: 1px solid var(--line); }
+.service h3 { font-family: var(--sans); font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; }
+.service p { margin-top: 12px; color: var(--ink-soft); max-width: 34ch; }
+.voice { text-align: center; padding: clamp(72px, 9vw, 128px) 0 0; }
+.voice blockquote { margin: 0 auto; max-width: 26ch; font-family: var(--display); font-size: clamp(30px, 3.6vw, 48px); line-height: 1.2; }
+.voice figcaption { margin-top: 24px; color: var(--ink-soft); }
+.voice .ph { margin-top: 18px; font-size: 14px; color: var(--ink-soft); }
+.faq { margin-top: 12px; }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 22px 0; font-family: var(--display); font-size: 24px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary svg { flex: none; transition: transform .3s var(--ease); color: var(--gold); }
+.faq details[open] summary svg { transform: rotate(45deg); }
+.faq p { padding: 0 0 24px; max-width: 64ch; color: var(--ink-soft); }
+
+.foot { background: var(--ink); color: #D9CFC1; margin-top: clamp(80px, 10vw, 140px); padding: 64px 0 28px; font-size: 15px; }
+.foot-in { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; }
+.foot p.lead { margin-top: 18px; max-width: 40ch; }
+.foot h4 { margin: 0 0 14px; font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-light); }
+.foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.foot .legal { margin-top: 48px; padding-top: 18px; border-top: 1px solid #4A3E33; font-size: 13px; color: #BFB2A0; }
+
+/* product page */
+.crumb { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 18px; text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; }
+.pdp { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 5vw, 80px); margin-top: 18px; align-items: start; }
+.main-img { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #D8CCBA; }
+.main-img img { width: 100%; height: 100%; object-fit: cover; }
+.mine { position: absolute; left: 12px; bottom: 12px; margin: 0; display: flex; align-items: center; gap: 14px; max-width: calc(100% - 24px); padding: 10px 20px 10px 10px; background: var(--porcelain); }
+.km-pair { position: relative; display: block; flex: none; width: var(--pair); height: var(--pair); }
+.km-pair img { position: absolute; display: block; object-fit: cover; border-radius: 0; }
+.km-pair .km-shell { left: 0; top: 0; width: 80%; height: 80%; }
+.km-pair .km-pad { right: 0; bottom: 0; width: 58%; height: 58%; box-shadow: 0 0 0 3px var(--porcelain); }
+.mine .km-pair { --pair: 60px; }
+.mine figcaption { display: grid; grid-template-columns: auto auto; gap: 2px 12px; align-items: baseline; font-size: 14px; line-height: 1.4; color: var(--ink); }
+.mine figcaption span { font-size: 12px; color: var(--ink-soft); }
+.thumbs { display: flex; gap: 10px; margin-top: 10px; }
+.thumbs button { width: 92px; aspect-ratio: 1; padding: 0; border: 1px solid transparent; background: none; cursor: pointer; }
+.thumbs button[aria-current="true"] { border-color: var(--gold); }
+.thumbs img { width: 100%; height: 100%; object-fit: cover; }
+.side { position: sticky; top: 100px; }
+.side .no { font-family: var(--display); font-size: 24px; color: var(--gold); }
+.side h1 { font-size: clamp(40px, 4vw, 58px); margin-top: 6px; }
+.side .sub { margin-top: 10px; color: var(--ink-soft); }
+.side .price { margin-top: 22px; font-family: var(--display); font-size: 34px; line-height: 1; }
+.side .final { margin-top: 6px; font-size: 14px; color: var(--ink-soft); }
+.side .blurb { margin-top: 18px; color: var(--ink-soft); max-width: 46ch; }
+.lbl { margin-top: 30px; font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; }
+.lbl span { letter-spacing: 0.04em; text-transform: none; font-weight: 400; color: var(--ink-soft); font-size: 14px; }
+.fabrics { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.fab { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 6px 14px 6px 6px; border: 1px solid var(--line); background: transparent; cursor: pointer; font-size: 14px; }
+.fab img { width: 34px; height: 34px; object-fit: cover; }
+.fab[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.sizes-list { margin-top: 12px; border-top: 1px solid var(--line); }
+.sz { width: 100%; display: grid; grid-template-columns: 18px 44px 1fr auto; gap: 12px; align-items: center; min-height: 56px; padding: 0 4px; border: 0; border-bottom: 1px solid var(--line); background: none; cursor: pointer; text-align: left; font-size: 15px; }
+.sz i { width: 12px; height: 12px; border: 1px solid var(--ink); }
+.sz[aria-pressed="true"] i { background: var(--ink); box-shadow: inset 0 0 0 2px var(--stone); }
+.sz b { font-weight: 500; }
+.sz span { color: var(--ink-soft); }
+.buy { display: flex; gap: 10px; margin-top: 26px; }
+.buy .btn { flex: 1; }
+.qty { display: flex; align-items: center; border: 1px solid var(--line); }
+.qty button { width: 46px; height: 50px; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+.qty span { min-width: 24px; text-align: center; }
+.cod { margin-top: 18px; padding: 18px 20px; border: 1px solid var(--line); background: var(--porcelain); display: grid; grid-template-columns: 24px 1fr; gap: 12px; font-size: 15px; }
+.cod svg { color: var(--gold); }
+
+/* cart, checkout, done */
+.page-title { font-size: clamp(40px, 4.4vw, 60px); margin: 40px 0 28px; }
+.two-col { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: clamp(28px, 4vw, 64px); align-items: start; }
+.item { display: grid; grid-template-columns: 120px minmax(0, 1fr) auto; gap: 20px; padding: 22px 0; border-top: 1px solid var(--line); align-items: start; }
+.item > img { width: 120px; height: 120px; object-fit: cover; }
+.item h3 { font-size: 28px; }
+.item .meta { display: flex; align-items: center; gap: 8px; margin-top: 6px; color: var(--ink-soft); font-size: 15px; }
+.item .meta img { width: 20px; height: 20px; object-fit: cover; }
+.item .ctl { display: flex; gap: 18px; align-items: center; margin-top: 14px; }
+.item .ctl .qty button { height: 42px; width: 40px; }
+.item .sum { font-family: var(--display); font-size: 22px; }
+.sumbox { background: var(--porcelain); padding: 28px; position: sticky; top: 100px; border: 1px solid var(--line); }
+.sumbox .row { display: flex; justify-content: space-between; padding: 6px 0; }
+.sumbox .total { margin-top: 12px; padding-top: 16px; border-top: 1px solid var(--line); font-family: var(--display); font-size: 26px; }
+.sumbox .muted { font-size: 14px; color: var(--ink-soft); margin-top: 6px; }
+.sumbox .btn { width: 100%; margin-top: 22px; }
+.progress { height: 2px; background: var(--line); margin-top: 10px; }
+.progress i { display: block; height: 100%; background: var(--gold); }
+.empty { padding: 40px 0 20px; }
+.empty h2 { font-size: 34px; margin-bottom: 26px; }
+.form h2 { font-size: 30px; margin-bottom: 8px; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.f { display: block; margin-top: 18px; font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; }
+.f input, .f textarea { display: block; width: 100%; margin-top: 8px; padding: 14px; border: 1px solid var(--line); border-radius: 0; background: var(--porcelain); font: 16px var(--sans); letter-spacing: 0; text-transform: none; color: var(--ink); }
+.f input:focus, .f textarea:focus { outline: none; border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.f small { display: block; margin-top: 6px; font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--ink-soft); }
+.f .err { display: none; color: #9C3A22; }
+.was-validated .f input:invalid { border-color: #9C3A22; }
+.was-validated .f input:invalid ~ .err { display: block; }
+.form .cod { margin-top: 26px; }
+.form .btn { width: 100%; margin-top: 22px; }
+.done { max-width: 720px; margin: 0 auto; padding: 64px 0 0; text-align: center; }
+.done h1 { font-size: clamp(44px, 5vw, 68px); }
+.done .num { margin-top: 10px; font-size: 16px; color: var(--ink-soft); }
+.done .num b { font-weight: 500; color: var(--ink); letter-spacing: 0.06em; }
+.done > p { margin-top: 16px; font-size: 18px; color: var(--ink-soft); }
+.done .service { text-align: left; grid-template-columns: 1fr; }
+.done .service div, .done .service div + div { padding: 22px 0; border-left: 0; border-bottom: 1px solid var(--line); }
+.done .btn { margin-top: 36px; }
+
+@media (max-width: 1000px) {
+  .fabrics-row { grid-template-columns: 1fr 1fr; }
+  .fabrics-row figure:nth-child(3) { padding-left: 0; border-left: 0; }
+  .fabrics-row figure:nth-child(2) { padding-right: 0; }
+  .pdp, .two-col { grid-template-columns: 1fr; }
+  .side, .sumbox { position: static; }
+  .index ol { display: flex; overflow-x: auto; scrollbar-width: none; gap: 4px; }
+  .index li { flex: none; }
+  .index button { padding: 0 14px; }
+}
+@media (max-width: 760px) {
+  .bar-in { grid-template-columns: auto 1fr; height: 64px; }
+  .nav { display: none; }
+  .wordmark { align-items: flex-start; }
+  .wordmark svg { height: 26px; }
+  .langs button:disabled { display: none; }
+  .mnav { display: flex; gap: 22px; overflow-x: auto; scrollbar-width: none; padding: 0 var(--gutter); border-top: 1px solid var(--line); }
+  .mnav a { flex: none; padding: 13px 0; font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; }
+  .stage { height: auto; display: flex; flex-direction: column; overflow: visible; }
+  .stage > img { position: relative; height: 40svh; min-height: 260px; }
+  .panel { position: relative; left: 0; bottom: 0; width: 100%; padding: 20px var(--gutter) 26px; box-shadow: none; }
+  .panel h1 { margin-top: 4px; }
+  .panel .blurb { display: none; }
+  .panel .acts .btn { flex: 1; }
+  .model, .model:nth-child(even) { grid-template-columns: 1fr; gap: 20px; }
+  .model:nth-child(even) .photo { order: 0; }
+  .service { grid-template-columns: 1fr; }
+  .fabrics-row { grid-template-columns: 1fr; }
+  .fabrics-row figure, .fabrics-row figure:first-child, .fabrics-row figure:last-child { padding: 18px 0; }
+  .fabrics-row figure + figure { border-left: 0; border-top: 1px solid var(--line); }
+  .fabrics-row img { width: 88px; height: 88px; }
+  .service div, .service div + div { padding: 22px 0; border-left: 0; border-bottom: 1px solid var(--line); }
+  .foot-in { grid-template-columns: 1fr 1fr; }
+  .foot-in > div:first-child { grid-column: 1 / -1; }
+  .item { grid-template-columns: 88px minmax(0, 1fr); }
+  .item > img { width: 88px; height: 88px; }
+  .item .sum { grid-column: 2; }
+  .pair { grid-template-columns: 1fr; gap: 0; }
+  .buy .btn .s { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="logo.js"></script>
+<script src="shop.js"></script>
+<script>
+(function () {
+  var I = {
+    bag: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 8h13l-1.1 12.2a1 1 0 0 1-1 .8H7.6a1 1 0 0 1-1-.8L5.5 8Z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/></svg>',
+    plus: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
+    minus: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg>',
+    left: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>',
+    cash: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6.5" width="19" height="11"/><circle cx="12" cy="12" r="2.6"/></svg>'
+  };
+  var P = KM.products;
+  var ui = { hero: 0, heroSize: {}, shown: -1, added: null, from: '' };
+  P.forEach(function (p) { new Image().src = p.photos[0]; });
+
+  function no(p) { return 'Nº' + (P.indexOf(KM.find(p.id)) + 1); }
+
+  function langs() {
+    return '<div class="langs" role="group" aria-label="Jezik"><button type="button" aria-pressed="true" title="Srpski">SR</button><button type="button" disabled title="U pripremi">EN</button><button type="button" disabled title="U pripremi">RU</button></div>';
+  }
+
+  function header(c) {
+    var links = '<a href="#/proizvodi" data-act="browse">Modeli</a><a href="#/tkanine">Tkanine</a><a href="#/proizvodi" data-act="browse" data-coll="Poznato. Ali novo.">Kolekcija</a>';
+    return '<header class="bar"><div class="wrap bar-in"><nav class="nav" aria-label="Glavni meni">' + links + '</nav>' +
+      '<a class="wordmark" href="#/" aria-label="KettyMon, početna">' + KM_LOGO.row + '</a>' +
+      '<div class="tools">' + langs() + '<a class="bag" href="#/korpa" aria-label="Korpa, ' + c.cart.count + ' proizvoda">' + I.bag + '<span>Korpa (' + c.cart.count + ')</span></a></div></div>' +
+      '<nav class="mnav" aria-label="Kategorije">' + links + '<a href="#/pitanja">Pitanja</a></nav></header>';
+  }
+
+  function stage(c) {
+    var p = P[ui.hero], sid = ui.heroSize[p.id] || p.sizes[Math.min(1, p.sizes.length - 1)].id;
+    var z = p.sizes.filter(function (s) { return s.id === sid; })[0];
+    return '<section class="stage" aria-label="Izdvojeni model">' + (ui.from ? '<img class="hero-old" src="' + ui.from + '" alt="">' : '') + '<img class="hero-img" src="' + p.photos[0] + '" alt="' + p.kind + ' ' + p.name + '" fetchpriority="high">' +
+      '<div class="panel"><p class="no">' + no(p) + '</p><h1>' + p.name + '</h1><p class="fit">' + p.kind + '</p><p class="blurb">' + p.blurb + '</p>' +
+      '<div class="sizes" role="group" aria-label="Veličina">' + p.sizes.map(function (s) { return '<button type="button" class="chip" data-act="hsize" data-size="' + s.id + '" aria-pressed="' + (s.id === sid) + '">' + s.id + '</button>'; }).join('') + '</div>' +
+      '<p class="fit">' + z.dims + ' · ' + z.pet + '<br>Jastuk: ' + c.fabrics[p.pad].name + ' · Spoljni deo: ' + c.fabrics[p.shell].name + '</p>' +
+      '<div class="acts"><span class="price">' + KM.fmt(z.price) + '</span><button type="button" class="btn" data-act="quick" data-pid="' + p.id + '" data-size="' + sid + '">Dodaj u korpu</button><a class="link" href="#/p/' + p.id + '">Svi detalji</a></div></div></section>' +
+      '<nav class="index" aria-label="Modeli po broju"><ol>' + P.map(function (q, i) { return '<li><button type="button" data-act="hero" data-i="' + i + '" aria-current="' + (i === ui.hero) + '"><span>' + no(q) + '</span><b>' + q.name + '</b></button></li>'; }).join('') + '</ol></nav>';
+  }
+
+  function model(p) {
+    var src = p.id === P[ui.hero].id && p.photos[1] ? p.photos[1] : p.photos[0];
+    return '<article class="model"><a class="photo" href="#/p/' + p.id + '" tabindex="-1" aria-hidden="true"><img src="' + src + '" alt="" loading="lazy"></a>' +
+      '<div><p class="no">' + no(p) + '</p><h3><a href="#/p/' + p.id + '">' + p.name + '</a></h3><p class="facts"><span>' + p.kind + '</span></p>' + (p.collection ? '<span class="coll">Kolekcija ' + p.collection + '</span>' : '') +
+      '<p class="blurb">' + p.blurb + '</p><p class="facts"><span>' + p.sizeLabel + '</span><span>' + p.from + '</span></p>' +
+      '<div class="pair">' + KM.pair(p.shell, p.pad) + '<span>Jastuk: ' + KM.fabrics[p.pad].name.toLowerCase() + '<br>Spoljni deo: ' + KM.fabrics[p.shell].name.toLowerCase() + '<br>Obe tkanine birate sami.</span></div>' +
+      '<a class="link" href="#/p/' + p.id + '">Pogledaj model</a></div></article>';
+  }
+
+  function home(c) {
+    var s = c.state;
+    var tabs = [['', 'Svi modeli'], [c.collection, 'Kolekcija']].map(function (t) { return '<button type="button" data-act="coll" data-coll="' + t[0] + '" aria-pressed="' + (s.coll === t[0]) + '">' + t[1] + '</button>'; }).join('');
+    return stage(c) +
+      '<section class="sec" id="proizvodi"><div class="wrap"><div class="sec-head"><div><h2>Naši modeli</h2><p>Svaki krevetić šijemo ručno, u veličini i tkaninama koje izaberete. Svi su za pse i za mačke.</p></div><div class="tabs" role="group" aria-label="Kolekcija">' + tabs + '</div></div>' +
+      (c.filterNote ? '<p class="note-row">' + c.filterNote + ' · <button type="button" class="txt" data-act="browse">Prikaži sve</button></p>' : '') +
+      (c.products.length ? c.products.map(model).join('') : '<p class="empty-row">Nema modela u ovom izboru.</p>') + '</div></section>' +
+      '<section class="sec" id="tkanine"><div class="wrap"><div class="sec-head"><div><h2>Tkanine</h2><p>Svaki krevetić ima jastuk i spoljni deo. Za svaki deo birate tkaninu, a cena zavisi samo od veličine.</p></div></div><div class="fabrics-row">' +
+      c.fabricIds.map(function (k) {
+        var f = c.fabrics[k], use = f.pad && f.shell ? 'Za jastuk i spoljni deo' : f.pad ? 'Samo za jastuk' : 'Samo za spoljni deo';
+        return '<figure><img src="' + f.img + '" alt="' + f.name + ', uzorak" loading="lazy"><figcaption><b>' + f.name + '</b><span>' + use + '</span></figcaption></figure>';
+      }).join('') + '</div></div></section>' +
+      '<section class="coll-band" id="kolekcija"><img src="img/room-wide-saluki.webp" alt="Pas leži u svetloj sobi" loading="lazy"><div class="wrap"><h2>Poznato. Ali novo.</h2><p class="txt-light">Kolekcija modela koje već volite, u novim tkaninama. Nova kolekcija je u izradi.</p><a class="link" href="#/proizvodi" data-act="browse" data-coll="Poznato. Ali novo.">Pogledaj kolekciju</a></div></section>' +
+      '<section class="sec"><div class="wrap"><div class="sec-head"><h2>Kako kupujete</h2></div><div class="service">' +
+      '<div><h3>Plaćanje pouzećem</h3><p>Bez kartice i bez registracije. Plaćate gotovinom kuriru kada paket stigne.</p></div>' +
+      '<div><h3>Svaki model uvek dostupan</h3><p>Kada nekog modela nestane, sašijemo nov. Zovemo vas da potvrdimo porudžbinu. ' + c.delivery + '.</p></div>' +
+      '<div><h3>Povrat u roku od 14 dana</h3><p>Ako krevetić ne odgovara, vratite ga u roku od 14 dana od preuzimanja.</p></div></div></div></section>' +
+      '<figure class="voice wrap" id="utisci"><blockquote>„Šarko je od prvog dana spavao samo na svom KettyMon krevetiću. Sad ne može da ga namami ni kauč.“</blockquote><figcaption>Šarko, mešanac · primer utiska</figcaption></figure>' +
+      '<section class="sec" id="pitanja"><div class="wrap"><div class="sec-head"><h2>Pitanja</h2></div><div class="faq">' +
+      '<details><summary>Kako da izaberem veličinu? ' + I.plus + '</summary><p>Uz svaku veličinu piše za koliko kilograma je namenjena. Ako vaš ljubimac voli da se ispruži, uzmite jednu veličinu veću.</p></details>' +
+      '<details><summary>Koliko košta dostava? ' + I.plus + '</summary><p>Dostava košta ' + c.fee + ', a za porudžbine od ' + c.freeFrom + ' je besplatna.</p></details>' +
+      '<details><summary>Kako plaćam? ' + I.plus + '</summary><p>Pouzećem: gotovinom kuriru kada paket stigne. Pre slanja vas zovemo da potvrdimo porudžbinu.</p></details>' +
+      '<details><summary>Mogu li da vratim krevetić? ' + I.plus + '</summary><p>Da, u roku od 14 dana od preuzimanja. Troškove povratne dostave plaćate vi.</p></details></div></div></section>';
+  }
+
+  function fabrics(part, label, cur, opts) {
+    return '<p class="lbl">' + label + ' <span>· ' + cur.name + '</span></p><div class="fabrics" role="group" aria-label="Tkanina, ' + label.toLowerCase() + '">' + opts.map(function (f) { return '<button type="button" class="fab" data-act="' + part + '" data-fabric="' + f.id + '" aria-pressed="' + f.on + '"><img src="' + f.img + '" alt="">' + f.name + '</button>'; }).join('') + '</div>';
+  }
+
+  function product(c) {
+    var v = c.pv, p = v.p, pk = v.pick, g = v.gallery[v.view];
+    return '<div class="wrap"><a class="crumb" href="#/proizvodi">' + I.left + 'Svi modeli</a><div class="pdp"><div><div class="main-img"><img src="' + g.src + '" alt="' + g.alt + '">' +
+      '<figure class="mine" aria-live="polite">' + v.pair + '<figcaption><span>Jastuk</span>' + v.pad.name + '<span>Spoljni deo</span>' + v.shell.name + '</figcaption></figure></div>' +
+      '<div class="thumbs">' + v.gallery.map(function (t, i) { return '<button type="button" data-act="view" data-view="' + i + '" aria-current="' + (i === v.view) + '" aria-label="Slika ' + (i + 1) + '"><img src="' + t.src + '" alt=""></button>'; }).join('') + '</div></div>' +
+      '<div class="side"><p class="no">' + no(p) + '</p><h1>' + p.name + '</h1><p class="sub">' + p.kind + ' · ' + v.sizeLabel + (p.collection ? ' · Kolekcija ' + p.collection : '') + '</p>' +
+      '<p class="price">' + v.price + '</p><p class="final">Cene su konačne. Cena zavisi samo od veličine.</p><p class="blurb">' + p.blurb + '</p>' +
+      fabrics('pad', 'Jastuk', v.pad, v.padOptions) + fabrics('shell', 'Spoljni deo', v.shell, v.shellOptions) +
+      '<p class="lbl">Veličina <span>· prema težini ljubimca</span></p><div class="sizes-list">' + p.sizes.map(function (z) { return '<button type="button" class="sz" data-act="size" data-size="' + z.id + '" aria-pressed="' + (z.id === v.size.id) + '"><i></i><b>' + z.id + '</b><span>' + z.dims + ' · ' + z.pet + '</span><b>' + KM.fmt(z.price) + '</b></button>'; }).join('') + '</div>' +
+      '<div class="buy"><div class="qty"><button type="button" data-act="qty" data-d="-1" aria-label="Smanji količinu">' + I.minus + '</button><span aria-live="polite">' + pk.qty + '</span><button type="button" data-act="qty" data-d="1" aria-label="Povećaj količinu">' + I.plus + '</button></div><button type="button" class="btn" data-act="add">Dodaj u korpu<span class="s">&nbsp;· ' + v.addTotal + '</span></button></div>' +
+      '<div class="cod">' + I.cash + '<p>Plaćanje pouzećem. Zovemo vas da potvrdimo porudžbinu, ' + c.delivery.toLowerCase() + ', a plaćate kuriru.</p></div></div></div></div>';
+  }
+
+  function sumbox(c, action) {
+    var k = c.cart;
+    return '<aside class="sumbox" aria-label="Pregled porudžbine"><div class="row"><span>Međuzbir</span><span>' + k.subtotal + '</span></div><div class="row"><span>Dostava</span><span>' + k.shipping + '</span></div>' +
+      (k.freeLeft ? '<div class="progress" aria-hidden="true"><i style="width:' + k.freeProgress + '%"></i></div><p class="muted">Još ' + k.freeLeft + ' do besplatne dostave.</p>' : '') +
+      '<div class="row total"><span>Ukupno</span><span>' + k.total + '</span></div><p class="muted">Cene su konačne. Plaćate kuriru.</p>' + action + '</aside>';
+  }
+
+  function cart(c) {
+    var k = c.cart;
+    if (k.empty) return '<div class="wrap"><h1 class="page-title">Korpa</h1><div class="empty"><h2>Korpa je prazna.</h2><a class="btn" href="#/proizvodi">Pogledaj modele</a></div></div>';
+    return '<div class="wrap"><h1 class="page-title">Korpa</h1><div class="two-col"><div>' + k.lines.map(function (l) {
+      return '<div class="item"><img src="' + l.product.photos[0] + '" alt=""><div><h3>' + l.product.name + '</h3><p class="meta">' + l.product.kind + ' · ' + l.size.id + ', ' + l.size.dims + '</p><p class="meta"><img src="' + l.pad.img + '" alt=""><img src="' + l.shell.img + '" alt="">' + l.fabricText + '</p><div class="ctl"><div class="qty"><button type="button" data-act="line" data-i="' + l.index + '" data-d="-1" aria-label="Smanji količinu">' + I.minus + '</button><span>' + l.qty + '</span><button type="button" data-act="line" data-i="' + l.index + '" data-d="1" aria-label="Povećaj količinu">' + I.plus + '</button></div><button type="button" class="txt" data-act="remove" data-i="' + l.index + '">Ukloni</button></div></div><p class="sum">' + l.total + '</p></div>';
+    }).join('') + '</div>' + sumbox(c, '<a class="btn" href="#/porucivanje">Završi kupovinu</a>') + '</div></div>';
+  }
+
+  function f(name, label, type, extra, help) {
+    return '<label class="f">' + label + '<input name="' + name + '" type="' + type + '" required ' + (extra || '') + '>' + (help ? '<small>' + help + '</small>' : '') + '<small class="err">Popunite ovo polje.</small></label>';
+  }
+
+  function checkout(c) {
+    return '<div class="wrap"><h1 class="page-title">Poručivanje</h1><div class="two-col"><form class="form" data-form="order" novalidate><h2>Gde da pošaljemo?</h2>' +
+      '<div class="pair">' + f('ime', 'Ime', 'text', 'autocomplete="given-name"') + f('prezime', 'Prezime', 'text', 'autocomplete="family-name"') + '</div>' + f('ulica', 'Ulica i broj', 'text', 'autocomplete="street-address"') +
+      '<div class="pair">' + f('grad', 'Grad', 'text', 'autocomplete="address-level2"') + f('postanski', 'Poštanski broj', 'text', 'inputmode="numeric" pattern="[0-9]{5}" autocomplete="postal-code"') + '</div>' +
+      f('telefon', 'Telefon', 'tel', 'autocomplete="tel"', 'Zovemo vas da potvrdimo porudžbinu.') + f('email', 'Email', 'email', 'autocomplete="email"', 'Ovde stiže potvrda.') +
+      '<label class="f">Napomena (opciono)<textarea name="napomena" rows="3"></textarea></label>' +
+      '<div class="cod">' + I.cash + '<p>Plaćanje pouzećem: gotovinom kuriru pri preuzimanju paketa.</p></div>' +
+      '<button class="btn" type="submit">Poruči · ' + c.cart.total + '</button></form>' + sumbox(c, '') + '</div></div>';
+  }
+
+  function done(c) {
+    var o = c.order || { number: 'KM-1042' };
+    return '<div class="wrap"><div class="done"><h1>Hvala vam!</h1><p>Primili smo vašu porudžbinu.</p><p class="num">Broj porudžbine: <b>' + o.number + '</b></p><div class="service">' +
+      '<div><h3>Uskoro vas zovemo</h3><p>Zovemo vas' + (o.phone ? ' na ' + c.esc(o.phone) : '') + ' da potvrdimo porudžbinu.</p></div>' +
+      '<div><h3>Šijemo i šaljemo</h3><p>' + c.delivery + '.</p></div><div><h3>Plaćate kuriru</h3><p>Gotovinom, kada paket stigne.</p></div></div><a class="btn" href="#/">Nazad na početnu</a></div></div>';
+  }
+
+  function footer(c) {
+    return '<footer class="foot"><div class="wrap"><div class="foot-in"><div><span class="logo-stack">' + KM_LOGO.stack + '</span><p class="lead">Ručno šiveni krevetići za pse i mačke. Prototip: fotografije, nazivi modela i tkanina, cene, cena dostave i rok dostave su privremeni primeri.</p></div>' +
+      '<div><h4>Kupovina</h4><ul><li><a href="#">Dostava i plaćanje</a></li><li><a href="#">Povrat u roku od 14 dana</a></li><li><a href="#">Uslovi kupovine</a></li><li><a href="#">Politika privatnosti</a></li></ul></div>' +
+      '<div><h4>Kontakt</h4><ul><li>[Telefon]</li><li>[Email]</li><li><a href="https://www.instagram.com/ketty.mon/">Instagram</a> · <a href="#">Viber</a> · <a href="#">WhatsApp</a></li></ul></div></div>' +
+      '<p class="legal">© KettyMon · Prodavac: ' + c.seller + ' · Nije u sistemu PDV-a · Cene su konačne.</p></div></footer>';
+  }
+
+  function quickAdd(pid, size) {
+    var p = KM.find(pid), st = KM.state;
+    var found = st.cart.filter(function (l) { return l.pid === pid && l.pad === p.pad && l.shell === p.shell && l.size === size; })[0];
+    if (found) found.qty = Math.min(9, found.qty + 1); else st.cart.push({ pid: pid, pad: p.pad, shell: p.shell, size: size, qty: 1 });
+    try { sessionStorage.setItem('km-cart', JSON.stringify(st.cart)); } catch (e) { /* storage unavailable */ }
+    ui.added = p.name + ', ' + size;
+  }
+
+  function act(a, el, ev, state, render) {
+    if (a === 'hero') { var nxt = +el.getAttribute('data-i'); if (nxt === ui.hero) return; ui.from = P[ui.hero].photos[0]; ui.hero = nxt; render(); var b = document.querySelector('.index button[aria-current="true"]'); if (b) b.focus({ preventScroll: true }); }
+    if (a === 'hsize') { ui.heroSize[P[ui.hero].id] = el.getAttribute('data-size'); render(); }
+    if (a === 'quick') { quickAdd(el.getAttribute('data-pid'), el.getAttribute('data-size')); render(); }
+  }
+
+  function after(c, root) {
+    var img = root.querySelector('.hero-img');
+    if (img && ui.shown !== -1 && ui.shown !== ui.hero) {
+      img.classList.add('swap'); root.querySelector('.panel').classList.add('swap');
+      img.addEventListener('animationend', function () { var old = root.querySelector('.hero-old'); if (old) old.remove(); }, { once: true });
+    }
+    ui.from = '';
+    if (img) ui.shown = ui.hero;
+    if (ui.added) {
+      var t = document.createElement('div');
+      t.className = 'added'; t.setAttribute('role', 'status');
+      t.innerHTML = '<span>Dodato u korpu: ' + ui.added + '</span><a href="#/korpa">Korpa</a>';
+      root.appendChild(t); ui.added = null;
+      setTimeout(function () { if (t.parentNode) t.parentNode.removeChild(t); }, 4000);
+    }
+  }
+
+  KM.mount({ header: header, footer: footer, home: home, product: product, cart: cart, checkout: checkout, done: done, act: act, after: after });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="sr-Latn">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KettyMon Boje</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600&display=swap">
+<style>
+:root {
+  --ink: #000000;
+  --ink-soft: #4D4D4D;
+  --white: #FFFFFF;
+  --mist: #F3F3F3;
+  --lavender: #E7E5FF;
+  --blush: #FFF1FA;
+  --sand: #EDE8E2;
+  --siva: #DCE3EC;
+  --lan: #F4F0E8;
+  --bez: #EDE2CF;
+  --roze: #FFE3EC;
+  --caramel: #F3E3D3;
+  --sage: #E3EBDD;
+  --line: #E2E2E2;
+  --font: 'Geologica', system-ui, sans-serif;
+  --gutter: clamp(16px, 3.4vw, 48px);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+html { scrollbar-color: #C9C9C9 var(--white); accent-color: var(--ink); caret-color: var(--ink); }
+body { margin: 0; background: var(--white); color: var(--ink); font-family: var(--font); font-weight: 400; font-size: 16px; line-height: 1.5; font-variant-numeric: tabular-nums; }
+::selection { background: var(--lavender); }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-underline-offset: 0.22em; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
+main:focus { outline: none; }
+h1, h2, h3 { font-weight: 500; margin: 0; line-height: 1.05; letter-spacing: -0.02em; text-wrap: balance; }
+p { margin: 0; }
+.wrap { max-width: 1440px; margin: 0 auto; padding: 0 var(--gutter); }
+
+.bar { position: sticky; top: 0; z-index: 20; background: var(--white); border-bottom: 1px solid var(--line); }
+.bar-in { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 64px; }
+.nav { display: flex; gap: 4px; }
+.nav a { text-decoration: none; padding: 10px 12px; font-size: 15px; border-radius: 30px; }
+.nav a:hover { background: var(--mist); }
+.wordmark { font-size: 28px; font-weight: 500; text-decoration: none; letter-spacing: -0.03em; display: inline-flex; flex-direction: column; align-items: center; line-height: 1; gap: 4px; }
+.wordmark { --logo-gold: #957148; --logo-ink: #6E4F2C; }
+.wordmark svg { display: block; height: 34px; width: auto; }
+.logo-stack { display: block; width: 180px; --logo-gold: #957148; --logo-ink: #6E4F2C; }
+.logo-stack svg { display: block; width: 100%; height: auto; }
+.tools { display: flex; justify-content: flex-end; align-items: center; gap: 4px; }
+.langs { display: flex; gap: 2px; }
+.langs button { border: 0; background: none; min-height: 40px; padding: 0 8px; border-radius: 30px; font-size: 13px; cursor: pointer; color: var(--ink-soft); }
+.langs button[aria-pressed="true"] { background: var(--ink); color: var(--white); }
+.langs button:disabled { opacity: 0.35; cursor: not-allowed; }
+.icon-btn { position: relative; display: inline-grid; place-items: center; width: 44px; height: 44px; border: 0; background: none; border-radius: 30px; cursor: pointer; text-decoration: none; }
+.icon-btn:hover { background: var(--mist); }
+.count { position: absolute; top: 3px; right: 1px; min-width: 18px; height: 18px; border-radius: 9px; background: var(--ink); color: var(--white); font-size: 11px; line-height: 18px; text-align: center; padding: 0 4px; }
+.mobile-nav { display: none; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 26px; border-radius: 30px; border: 0; background: var(--ink); color: var(--white); font-size: 17px; font-weight: 500; text-decoration: none; cursor: pointer; transition: transform .2s var(--ease), background .2s var(--ease); }
+.btn:hover { transform: translateY(-1px); background: #262626; }
+.btn.ghost { background: var(--white); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.btn.ghost:hover { background: var(--mist); }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); height: min(calc(100svh - 150px), 620px); min-height: 460px; }
+.hero-field { position: relative; background: var(--lavender); display: flex; flex-direction: column; justify-content: center; padding: clamp(40px, 6vw, 96px) clamp(24px, 6vw, 96px); }
+.hero-field::after { content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 26px; background: repeating-linear-gradient(180deg, var(--ink) 0 12px, var(--lavender) 12px 24px); }
+.hero h1 { font-size: clamp(40px, 4.2vw, 64px); max-width: 11ch; }
+.hero p { margin-top: 20px; font-size: clamp(17px, 1.4vw, 20px); max-width: 30ch; }
+.hero .btn { margin-top: 32px; align-self: flex-start; }
+.hero-photo { position: relative; overflow: hidden; background: var(--mist); }
+.hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+
+/* Shop by */
+.section { padding: clamp(40px, 5vw, 80px) 0 0; }
+.sec-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+.sec-head h2 { font-size: clamp(28px, 2.8vw, 40px); }
+.cats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.cat { text-decoration: none; }
+.cat-img { aspect-ratio: 1; overflow: hidden; border-radius: 12px; background: var(--mist); }
+.cat-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+.cat:hover .cat-img img { transform: scale(1.04); }
+.cat span { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: 18px; font-weight: 500; }
+
+.filters { display: flex; gap: 8px; }
+.chip { min-height: 44px; padding: 0 20px; border-radius: 30px; border: 1.5px solid var(--ink); background: var(--white); cursor: pointer; font-size: 15px; font-weight: 500; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--white); }
+.note-row { margin: -12px 0 20px; display: flex; gap: 6px; align-items: center; }
+.products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 16px; }
+.card { text-decoration: none; display: block; }
+.card-img { position: relative; aspect-ratio: 1; border-radius: 12px; overflow: hidden; background: var(--mist); }
+.card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+.card:hover .card-img img { transform: scale(1.04); }
+.card .flag { position: absolute; top: 12px; left: 12px; background: var(--white); font-size: 13px; font-weight: 500; padding: 5px 12px; border-radius: 30px; }
+.card-row { display: flex; justify-content: space-between; gap: 12px; margin-top: 14px; font-size: 18px; font-weight: 500; }
+.card .sub { font-size: 15px; color: var(--ink-soft); margin-top: 2px; }
+
+/* Fabric fields */
+.fields { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 0 calc(-1 * var(--gutter)); }
+.field-card { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 32px; min-height: 440px; padding: clamp(24px, 3vw, 44px); text-decoration: none; transition: filter .3s var(--ease); }
+.field-card:hover { filter: saturate(1.35); }
+.field-card img { width: min(100%, 220px); aspect-ratio: 1; border-radius: 50%; object-fit: cover; }
+.field-card b { display: block; font-size: clamp(24px, 2.2vw, 34px); font-weight: 500; letter-spacing: -0.02em; }
+.field-card small { display: block; margin-top: 4px; font-size: 15px; color: var(--ink-soft); }
+
+/* Quote */
+.quote { background: var(--blush); margin-top: clamp(56px, 7vw, 104px); padding: clamp(64px, 8vw, 120px) 0; text-align: center; }
+.quote blockquote { margin: 0 auto; max-width: 20ch; font-size: clamp(32px, 4vw, 60px); font-weight: 500; line-height: 1.08; letter-spacing: -0.025em; text-wrap: balance; }
+.quote cite { display: block; margin-top: 24px; font-style: normal; font-size: 16px; }
+
+/* Steps */
+.howfield { background: var(--sage); margin-top: clamp(40px, 5vw, 80px); padding: clamp(48px, 6vw, 88px) 0; }
+.howfield h2 { font-size: clamp(28px, 2.8vw, 40px); margin-bottom: 28px; }
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); list-style: none; margin: 0; padding: 0; }
+.steps li { display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: start; }
+.steps .n { font-size: 15px; font-weight: 500; width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: var(--white); display: grid; place-items: center; }
+.steps b { display: block; font-size: 21px; font-weight: 500; }
+.steps p > span { display: block; margin-top: 4px; color: #33402C; }
+
+.foot { margin-top: clamp(64px, 8vw, 120px); background: var(--lavender); padding: 56px 0 28px; }
+.foot-in { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; }
+.foot .logo-stack { width: clamp(200px, 22vw, 300px); }
+.foot h4 { margin: 0 0 12px; font-size: 15px; font-weight: 500; }
+.foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 15px; }
+.foot .legal { margin-top: 48px; font-size: 13px; color: var(--ink-soft); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+/* Product page */
+.pdp { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(24px, 4vw, 64px); padding: 24px 0 clamp(56px, 7vw, 104px); }
+.shots { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-content: start; }
+.shots figure { margin: 0; position: relative; border-radius: 12px; overflow: hidden; background: var(--mist); aspect-ratio: 1; }
+.shots figure:first-child { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
+.shots img { width: 100%; height: 100%; object-fit: cover; }
+.shots .fabric-shot { display: grid; grid-template-rows: 3fr 2fr; }
+.shots .fabric-shot > div { position: relative; min-height: 0; overflow: hidden; }
+.shots .fabric-shot > div + div { border-top: 3px solid var(--white); }
+.shots .fabric-shot img { animation: pop .5s var(--ease); }
+@keyframes pop { from { transform: scale(0.92); opacity: 0.4; } to { transform: none; opacity: 1; } }
+.shots .fabric-shot span { position: absolute; left: 12px; bottom: 12px; background: var(--white); border-radius: 30px; padding: 5px 12px; font-size: 13px; line-height: 1.3; }
+.shots .fabric-shot span i { font-style: normal; color: var(--ink-soft); }
+.shots .fabric-shot span i::after { content: ' · '; }
+.shots .fabric-shot span b { font-weight: 500; }
+.panel { position: sticky; top: 88px; align-self: start; }
+.back { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; text-decoration: none; color: var(--ink-soft); margin-bottom: 16px; min-height: 40px; }
+.panel h1 { font-size: clamp(36px, 3.4vw, 52px); }
+.panel .sub { margin-top: 8px; color: var(--ink-soft); }
+.panel .price { margin-top: 16px; font-size: 26px; font-weight: 500; }
+.panel .final { font-size: 13px; color: var(--ink-soft); }
+.panel .blurb { margin-top: 16px; max-width: 44ch; }
+.opt { margin-top: 26px; }
+.opt-label { font-size: 15px; margin-bottom: 10px; }
+.opt-label b { font-weight: 500; }
+.swatches { display: flex; gap: 10px; }
+.swatch { width: 48px; height: 48px; border-radius: 50%; padding: 0; border: 0; cursor: pointer; box-shadow: 0 0 0 2px var(--white), 0 0 0 3px var(--line); transition: box-shadow .2s var(--ease); }
+.swatch img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.swatch[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--white), 0 0 0 5px var(--ink); }
+.sizes { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.size { border: 1.5px solid var(--line); background: var(--white); border-radius: 12px; padding: 10px 12px; cursor: pointer; text-align: left; min-height: 64px; }
+.size b { display: block; font-size: 17px; font-weight: 500; }
+.size span { display: block; font-size: 12px; color: var(--ink-soft); }
+.size[aria-pressed="true"] { border-color: var(--ink); background: var(--lavender); }
+.add { display: flex; gap: 8px; margin-top: 24px; }
+.stepper { display: inline-flex; align-items: center; border-radius: 30px; box-shadow: inset 0 0 0 1.5px var(--line); }
+.stepper button { width: 44px; height: 48px; border: 0; background: none; cursor: pointer; display: grid; place-items: center; border-radius: 30px; }
+.stepper span { min-width: 20px; text-align: center; font-weight: 500; }
+.add .btn { flex: 1; white-space: nowrap; }
+.perks { margin-top: 20px; background: var(--lavender); border-radius: 12px; padding: 18px 20px; display: grid; gap: 10px; font-size: 15px; }
+.perks div { display: flex; gap: 10px; align-items: center; }
+
+/* Cart / checkout */
+.page-title { font-size: clamp(40px, 4vw, 60px); padding: 40px 0 28px; }
+.grid2 { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(24px, 4vw, 56px); align-items: start; padding-bottom: 80px; }
+.line { display: grid; grid-template-columns: 120px minmax(0, 1fr) auto; gap: 18px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.line:first-child { border-top: 1px solid var(--line); }
+.line img { width: 120px; height: 120px; border-radius: 12px; object-fit: cover; }
+.line h3 { font-size: 20px; }
+.line .sub { color: var(--ink-soft); font-size: 14px; margin-top: 2px; }
+.fabric-meta { display: flex; align-items: center; gap: 8px; }
+.line .fabric-meta img { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; }
+.line .ctl { display: flex; gap: 12px; align-items: center; margin-top: 10px; }
+.line .stepper button { height: 40px; width: 40px; }
+.link { border: 0; background: none; padding: 8px 0; min-height: 40px; font-size: 14px; text-decoration: underline; cursor: pointer; }
+.line .sum { font-weight: 500; font-size: 17px; }
+.box { background: var(--mist); border-radius: 12px; padding: 24px; position: sticky; top: 88px; }
+.box .row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; }
+.box .total { border-top: 1px solid #D6D6D6; margin-top: 12px; padding-top: 14px; font-size: 20px; font-weight: 500; }
+.ship-bar { margin: 6px 0 2px; height: 8px; border-radius: 8px; background: var(--white); overflow: hidden; }
+.ship-bar i { display: block; height: 100%; background: var(--ink); border-radius: 8px; transition: width .6s var(--ease); }
+.small { font-size: 13px; color: var(--ink-soft); }
+.box .btn { width: 100%; margin-top: 20px; }
+.empty { background: var(--lavender); border-radius: 12px; padding: 72px 24px; text-align: center; margin-bottom: 80px; }
+.empty p { font-size: 22px; font-weight: 500; margin-bottom: 20px; }
+.form { display: grid; gap: 16px; }
+.form h2 { font-size: 20px; margin-top: 8px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.fld { display: grid; gap: 6px; font-size: 14px; font-weight: 500; }
+.fld input, .fld textarea { font: inherit; font-weight: 400; font-size: 16px; min-height: 52px; padding: 0 16px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--white); color: var(--ink); }
+.fld textarea { padding: 14px 16px; min-height: 96px; resize: vertical; }
+.fld input:focus, .fld textarea:focus { outline: none; border-color: var(--ink); }
+.fld small { font-weight: 400; color: var(--ink-soft); }
+.err { display: none; font-weight: 400; color: #B42318; font-size: 13px; }
+.was-validated .fld input:invalid { border-color: #B42318; background: #FFF6F5; }
+.was-validated .fld input:invalid ~ .err { display: block; }
+.pay { display: flex; gap: 12px; align-items: center; padding: 16px; border-radius: 12px; background: var(--lavender); }
+.pay b { font-weight: 500; }
+.done { text-align: center; max-width: 720px; margin: 0 auto; padding: clamp(64px, 10vw, 140px) 0; }
+.done h1 { font-size: clamp(48px, 6vw, 88px); }
+.done .num { display: inline-block; margin-top: 20px; background: var(--lavender); border-radius: 30px; padding: 8px 18px; font-weight: 500; }
+.done p { margin-top: 16px; font-size: 18px; }
+.done .steps { margin-top: 40px; text-align: left; grid-template-columns: 1fr; background: var(--sage); padding: 28px; border-radius: 12px; }
+.done .btn { margin-top: 36px; }
+
+@media (max-width: 1000px) {
+  .products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fields, .cats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pdp, .grid2 { grid-template-columns: 1fr; }
+  .panel, .box { position: static; }
+}
+@media (max-width: 760px) {
+  .bar-in { grid-template-columns: 1fr auto; height: 58px; }
+  .nav { display: none; }
+  .wordmark { font-size: 24px; }
+  .tools .langs button:disabled { display: none; }
+  .mobile-nav { display: flex; scrollbar-width: none; gap: 6px; overflow-x: auto; padding: 0 var(--gutter) 10px; }
+  .mobile-nav a { flex: none; text-decoration: none; padding: 8px 14px; border-radius: 30px; background: var(--mist); font-size: 14px; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-photo { order: -1; aspect-ratio: 4 / 3; }
+  .products { gap: 24px 12px; }
+  .card-row { font-size: 16px; flex-direction: column; gap: 2px; }
+  .card .sub { font-size: 13px; }
+  .field-card img { width: 100%; max-width: 140px; }
+  .field-card b { font-size: 19px; }
+  .steps { grid-template-columns: 1fr; }
+  .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .field-card { min-height: 260px; }
+  .hero { height: auto; min-height: 0; }
+  .hero-field::after { top: 0; left: 0; right: 0; bottom: auto; width: auto; height: 18px; background: repeating-linear-gradient(90deg, var(--ink) 0 12px, var(--lavender) 12px 24px); }
+  .hero-field { padding-top: 56px; }
+  .foot-in { grid-template-columns: 1fr 1fr; }
+  .foot-in > div:first-child { grid-column: 1 / -1; }
+  .line { grid-template-columns: 88px minmax(0, 1fr); }
+  .line img { width: 88px; height: 88px; }
+  .line .sum { grid-column: 2; }
+  .two { grid-template-columns: 1fr; }
+  .add .btn .sum-in { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+@media (max-width: 760px) { .wordmark svg { height: 26px; } .shots .fabric-shot span { left: 8px; bottom: 8px; padding: 3px 9px; font-size: 11px; } .shots .fabric-shot span b { display: none; } .shots .fabric-shot span i { color: var(--ink); } .shots .fabric-shot span i::after { content: none; } }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="logo.js"></script>
+<script src="shop.js"></script>
+<script>
+(function () {
+  var I = {
+    bag: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 8h13l-1.1 12.2a1 1 0 0 1-1 .8H7.6a1 1 0 0 1-1-.8L5.5 8Z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/></svg>',
+    arrow: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+    left: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>',
+    cash: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6.5" width="19" height="11" rx="2"/><circle cx="12" cy="12" r="2.6"/></svg>',
+    truck: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.5h11v10h-11z"/><path d="M13.5 9.5h4l3 3.2v3.8h-7"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>',
+    back: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.6-5.9"/><path d="M4 4.5v4h4"/></svg>',
+    plus: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
+    minus: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg>'
+  };
+  var FIELD = { siva: 'var(--lavender)', lan: 'var(--sage)', bez: 'var(--caramel)', roze: 'var(--blush)' };
+
+  function langs(s) {
+    return '<div class="langs" role="group" aria-label="Jezik"><button type="button" aria-pressed="true" title="Srpski">SR</button><button type="button" disabled title="U pripremi">EN</button><button type="button" disabled title="U pripremi">RU</button></div>';
+  }
+
+  function header(c) {
+    return '<header class="bar"><div class="wrap bar-in"><nav class="nav" aria-label="Glavni meni"><a href="#/proizvodi" data-act="browse">Krevetići</a><a href="#/proizvodi" data-act="browse" data-coll="Poznato. Ali novo.">Kolekcija</a><a href="#/tkanine">Tkanine</a></nav>' +
+      '<a class="wordmark" href="#/" aria-label="KettyMon, početna">' + KM_LOGO.row + '</a>' +
+      '<div class="tools">' + langs(c.state) + '<a class="icon-btn" href="#/korpa" aria-label="Korpa, ' + c.cart.count + ' proizvoda">' + I.bag + (c.cart.count ? '<span class="count">' + c.cart.count + '</span>' : '') + '</a></div></div>' +
+      '<nav class="mobile-nav" aria-label="Kategorije"><a href="#/proizvodi" data-act="browse">Krevetići</a><a href="#/proizvodi" data-act="browse" data-coll="Poznato. Ali novo.">Kolekcija</a><a href="#/tkanine">Tkanine</a></nav></header>';
+  }
+
+  function card(p) {
+    return '<a class="card" href="#/p/' + p.id + '"><div class="card-img"><img src="' + p.photos[0] + '" alt="' + p.kind + ' ' + p.name + '" loading="lazy">' + (p.isNew ? '<span class="flag">Novo</span>' : '') + '</div>' +
+      '<div class="card-row"><span>' + p.name + '</span><span>' + p.from + '</span></div><p class="sub">' + p.kind + ' · ' + p.sizeLabel + '</p></a>';
+  }
+
+  function home(c) {
+    var s = c.state;
+    var filters = [['', 'Svi'], [c.collection, c.collection]].map(function (f) { return '<button type="button" class="chip" data-act="coll" data-coll="' + f[0] + '" aria-pressed="' + (s.coll === f[0]) + '">' + f[1] + '</button>'; }).join('');
+    var fieldsHtml = [['siva', 'luna'], ['lan', 'klupko'], ['bez', 'oblak'], ['roze', 'roza']].map(function (x) {
+      var f = c.fabrics[x[0]], use = f.pad && f.shell ? 'Za jastuk i spoljni deo' : f.pad ? 'Samo za jastuk' : 'Samo za spoljni deo';
+      return '<a class="field-card" href="#/p/' + x[1] + '" data-act="fabricgo" data-fabric="' + x[0] + '" data-pid="' + x[1] + '" style="background:' + FIELD[x[0]] + '"><img src="' + f.img + '" alt=""><span><b>' + f.name + '</b><small>' + use + '</small></span></a>';
+    }).join('');
+    return '<section class="hero"><div class="hero-field"><h1>Krevetić koji je baš njegov.</h1><p>Ručno šiveni krevetići za pse i mačke. Vi birate veličinu i tkaninu za jastuk i za spoljni deo.</p><a class="btn" href="#/proizvodi">Izaberi krevetić ' + I.arrow + '</a></div>' +
+      '<div class="hero-photo"><img src="img/dog-blanket-close.webp" alt="Pas umotan u ćebe na sivom krevetiću" fetchpriority="high"></div></section>' +
+      '<section class="section"><div class="wrap"><div class="sec-head"><h2>Šta tražite?</h2></div><div class="cats">' +
+      '<a class="cat" href="#/proizvodi" data-act="browse"><div class="cat-img"><img src="img/dog-large-bed.webp" alt="" loading="lazy"></div><span>Svi krevetići ' + I.arrow + '</span></a>' +
+      '<a class="cat" href="#/kupovina"><div class="cat-img"><img src="img/room-wide-saluki.webp" alt="" loading="lazy"></div><span>Kako kupujete ' + I.arrow + '</span></a>' +
+      '<a class="cat" href="#/proizvodi" data-act="browse" data-coll="Poznato. Ali novo."><div class="cat-img"><img src="img/cat-fireplace.webp" alt="" loading="lazy"></div><span>Poznato. Ali novo. ' + I.arrow + '</span></a>' +
+      '<a class="cat" href="#/tkanine"><div class="cat-img"><img src="img/cat-round-sherpa.webp" alt="" loading="lazy"></div><span>Po tkanini ' + I.arrow + '</span></a>' +
+      '</div></div></section>' +
+      '<section class="section" id="proizvodi"><div class="wrap"><div class="sec-head"><h2>Svi modeli</h2><div class="filters" role="group" aria-label="Kolekcija">' + filters + '</div></div>' +
+      (c.filterNote ? '<p class="note-row">' + c.filterNote + ' · <button type="button" class="link" data-act="browse">Prikaži sve</button></p>' : '') +
+      '<div class="products">' + c.products.map(card).join('') + '</div></div></section>' +
+      '<section class="section" id="tkanine"><div class="wrap"><div class="sec-head"><h2>Izaberite po tkanini</h2></div><div class="fields">' + fieldsHtml + '</div></div></section>' +
+      '<section class="quote" id="utisci"><div class="wrap"><blockquote>„Šarko je od prvog dana spavao samo na svom KettyMon krevetiću. Sad ne može da ga namami ni kauč.“</blockquote><cite>Šarko, mešanac · primer utiska</cite></div></section>' +
+      '<section class="howfield" id="kupovina"><div class="wrap"><h2>Kako kupujete</h2><ol class="steps">' +
+      '<li><span class="n">1</span><p><b>Poručite na sajtu</b><span>Bez registracije i bez kartice. Dovoljni su adresa i telefon.</span></p></li>' +
+      '<li><span class="n">2</span><p><b>Zovemo vas</b><span>Potvrdimo porudžbinu, a zatim krevetić šijemo i šaljemo. ' + c.delivery + '.</span></p></li>' +
+      '<li><span class="n">3</span><p><b>Plaćate kuriru</b><span>Gotovinom kada paket stigne. Povrat u roku od 14 dana.</span></p></li></ol></div></section>';
+  }
+
+  function product(c) {
+    var v = c.pv, p = v.p, pk = v.pick;
+    return '<div class="wrap"><div class="pdp"><div class="shots">' +
+      '<figure><img src="' + p.photos[0] + '" alt="' + p.kind + ' ' + p.name + '"></figure>' +
+      '<figure><img src="' + (p.photos[1] || p.photos[0]) + '" alt="" loading="lazy"></figure>' +
+      '<figure class="fabric-shot" aria-live="polite">' +
+      '<div><img src="' + v.shell.img + '" alt="Tkanina spoljnog dela: ' + v.shell.name + '"><span><i>Spoljni deo</i><b>' + v.shell.name + '</b></span></div>' +
+      '<div><img src="' + v.pad.img + '" alt="Tkanina jastuka: ' + v.pad.name + '"><span><i>Jastuk</i><b>' + v.pad.name + '</b></span></div></figure>' +
+      '</div><div class="panel"><a class="back" href="#/proizvodi">' + I.left + 'Svi modeli</a><h1>' + p.name + '</h1><p class="sub">' + p.kind + ' · ' + v.sizeLabel + (p.collection ? ' · Kolekcija ' + p.collection : '') + '</p>' +
+      '<p class="price">' + v.price + '</p><p class="final">Cene su konačne. Cena zavisi samo od veličine.</p><p class="blurb">' + p.blurb + '</p>' +
+      swatches('pad', 'Jastuk', v.pad, v.padOptions) + swatches('shell', 'Spoljni deo', v.shell, v.shellOptions) +
+      '<div class="opt"><p class="opt-label">Veličina: <b>' + v.size.id + '</b></p><div class="sizes">' + p.sizes.map(function (z) { return '<button type="button" class="size" data-act="size" data-size="' + z.id + '" aria-pressed="' + (z.id === v.size.id) + '"><b>' + z.id + '</b><span>' + z.dims + '</span><span>' + z.pet + '</span></button>'; }).join('') + '</div></div>' +
+      '<div class="add"><div class="stepper"><button type="button" data-act="qty" data-d="-1" aria-label="Smanji količinu">' + I.minus + '</button><span aria-live="polite">' + pk.qty + '</span><button type="button" data-act="qty" data-d="1" aria-label="Povećaj količinu">' + I.plus + '</button></div><button type="button" class="btn" data-act="add">Dodaj u korpu<span class="sum-in">&nbsp;· ' + v.addTotal + '</span></button></div>' +
+      '<div class="perks"><div>' + I.truck + c.delivery + '</div><div>' + I.cash + 'Plaćanje pouzećem, gotovinom kuriru</div><div>' + I.back + 'Povrat u roku od 14 dana</div></div>' +
+      '</div></div></div>';
+  }
+
+  function swatches(part, label, cur, opts) {
+    return '<div class="opt"><p class="opt-label">' + label + ': <b>' + cur.name + '</b></p><div class="swatches" role="group" aria-label="Tkanina, ' + label.toLowerCase() + '">' + opts.map(function (f) { return '<button type="button" class="swatch" data-act="' + part + '" data-fabric="' + f.id + '" aria-pressed="' + f.on + '" aria-label="' + f.name + '"><img src="' + f.img + '" alt=""></button>'; }).join('') + '</div></div>';
+  }
+
+  function box(c, action) {
+    var k = c.cart;
+    return '<aside class="box" aria-label="Pregled porudžbine"><div class="row"><span>Međuzbir</span><span>' + k.subtotal + '</span></div><div class="row"><span>Dostava</span><span>' + k.shipping + '</span></div>' +
+      (k.freeLeft ? '<div class="ship-bar" aria-hidden="true"><i style="width:' + k.freeProgress + '%"></i></div><p class="small">Dodajte još ' + k.freeLeft + ' za besplatnu dostavu.</p>' : '<p class="small">Dostava je besplatna.</p>') +
+      '<div class="row total"><span>Ukupno</span><span>' + k.total + '</span></div><p class="small">Cene su konačne. Plaćate kuriru kada paket stigne.</p>' + action + '</aside>';
+  }
+
+  function cart(c) {
+    var k = c.cart;
+    if (k.empty) return '<div class="wrap"><h1 class="page-title">Korpa</h1><div class="empty"><p>Korpa je prazna.</p><a class="btn" href="#/proizvodi">Izaberi krevetić</a></div></div>';
+    return '<div class="wrap"><h1 class="page-title">Korpa</h1><div class="grid2"><div>' + k.lines.map(function (l) {
+      return '<div class="line"><img src="' + l.product.photos[0] + '" alt=""><div><h3>' + l.product.name + '</h3><p class="sub">' + l.product.kind + ' · ' + l.size.id + ', ' + l.size.dims + '</p><p class="sub fabric-meta"><img src="' + l.pad.img + '" alt=""><img src="' + l.shell.img + '" alt="">' + l.fabricText + '</p><div class="ctl"><div class="stepper"><button type="button" data-act="line" data-i="' + l.index + '" data-d="-1" aria-label="Smanji količinu">' + I.minus + '</button><span>' + l.qty + '</span><button type="button" data-act="line" data-i="' + l.index + '" data-d="1" aria-label="Povećaj količinu">' + I.plus + '</button></div><button type="button" class="link" data-act="remove" data-i="' + l.index + '">Ukloni</button></div></div><p class="sum">' + l.total + '</p></div>';
+    }).join('') + '</div>' + box(c, '<a class="btn" href="#/porucivanje">Završi kupovinu</a>') + '</div></div>';
+  }
+
+  function fld(name, label, type, extra, help) {
+    return '<label class="fld">' + label + '<input name="' + name + '" type="' + type + '" required ' + (extra || '') + '>' + (help ? '<small>' + help + '</small>' : '') + '<span class="err">Ovo polje je obavezno.</span></label>';
+  }
+
+  function checkout(c) {
+    return '<div class="wrap"><h1 class="page-title">Poručivanje</h1><div class="grid2"><form class="form" data-form="order" novalidate><h2>Gde šaljemo?</h2>' +
+      '<div class="two">' + fld('ime', 'Ime', 'text', 'autocomplete="given-name"') + fld('prezime', 'Prezime', 'text', 'autocomplete="family-name"') + '</div>' +
+      fld('ulica', 'Ulica i broj', 'text', 'autocomplete="street-address"') +
+      '<div class="two">' + fld('grad', 'Grad', 'text', 'autocomplete="address-level2"') + fld('postanski', 'Poštanski broj', 'text', 'inputmode="numeric" pattern="[0-9]{5}" autocomplete="postal-code"') + '</div>' +
+      fld('telefon', 'Telefon', 'tel', 'autocomplete="tel"', 'Zovemo vas da potvrdimo porudžbinu.') + fld('email', 'Email', 'email', 'autocomplete="email"', 'Ovde stižu potvrda i broj za praćenje pošiljke.') +
+      '<label class="fld">Napomena (opciono)<textarea name="napomena" rows="3"></textarea></label>' +
+      '<h2>Plaćanje</h2><div class="pay">' + I.cash + '<p><b>Pouzećem.</b> Gotovinom kuriru pri preuzimanju.</p></div>' +
+      '<button class="btn" type="submit">Poruči · ' + c.cart.total + '</button></form>' + box(c, '') + '</div></div>';
+  }
+
+  function done(c) {
+    var o = c.order || { number: 'KM-1042' };
+    return '<div class="wrap"><div class="done"><h1>Hvala!</h1><span class="num">' + o.number + '</span><p>Primili smo vašu porudžbinu. Uskoro vas zovemo' + (o.phone ? ' na ' + c.esc(o.phone) : '') + ' da je potvrdimo.</p>' +
+      '<ol class="steps"><li><span class="n">1</span><p><b>Zovemo vas</b><span>Da potvrdimo porudžbinu.</span></p></li><li><span class="n">2</span><p><b>Šaljemo</b><span>' + c.delivery + '.</span></p></li><li><span class="n">3</span><p><b>Plaćate kuriru</b><span>Gotovinom, kada paket stigne.</span></p></li></ol>' +
+      '<a class="btn ghost" href="#/">Nazad na početnu</a></div></div>';
+  }
+
+  function footer(c) {
+    return '<footer class="foot"><div class="wrap"><div class="foot-in"><div><span class="logo-stack">' + KM_LOGO.stack + '</span></div>' +
+      '<div><h4>Kupovina</h4><ul><li><a href="#">Dostava i plaćanje</a></li><li><a href="#">Povrat u roku od 14 dana</a></li><li><a href="#">Uslovi kupovine</a></li><li><a href="#">Politika privatnosti</a></li></ul></div>' +
+      '<div><h4>Pišite nam</h4><ul><li><a href="https://www.instagram.com/ketty.mon/">Instagram</a></li><li><a href="#">Viber</a></li><li><a href="#">WhatsApp</a></li><li>[Telefon] · [Email]</li></ul></div></div>' +
+      '<div class="legal"><span>© KettyMon · Prodavac: ' + c.seller + ' · Nije u sistemu PDV-a</span><span>Prototip: fotografije, nazivi modela i tkanina, cene, cena dostave i rok dostave su privremeni primeri.</span></div></div></footer>';
+  }
+
+  function act(a, el, ev, state, render) {
+    if (a === 'fabricgo') { var pid = el.getAttribute('data-pid'), p = KM.find(pid); var fid = el.getAttribute('data-fabric'), f = KM.fabrics[fid]; state.pick[pid] = { pad: f.pad ? fid : p.pad, shell: f.shell ? fid : p.shell, size: p.sizes[Math.min(1, p.sizes.length - 1)].id, qty: 1, view: 0 }; location.hash = '#/p/' + pid; }
+  }
+
+  KM.mount({ header: header, footer: footer, home: home, product: product, cart: cart, checkout: checkout, done: done, act: act });
+})();
+</script>
+</body>
+</html>

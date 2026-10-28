@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="sr-Latn">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KettyMon Atelje</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Roboto+Condensed:wght@500;700&family=Sofia+Sans:wght@400;500;600&display=swap">
+<style>
+:root {
+  --white: #FFFFFF;
+  --black: #000000;
+  --ink: #141414;
+  --grey: #5C5C5C;
+  --plate: #F5F5F5;
+  --line: #E6E6E6;
+  --serif: 'Forum', 'Times New Roman', serif;
+  --cond: 'Roboto Condensed', 'Arial Narrow', sans-serif;
+  --sans: 'Sofia Sans', system-ui, sans-serif;
+  --gutter: clamp(16px, 3vw, 40px);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+*, *::before, *::after { box-sizing: border-box; border-radius: 0; }
+html { -webkit-text-size-adjust: 100%; }
+html { scrollbar-color: #BDBDBD var(--white); accent-color: var(--black); caret-color: var(--black); }
+body { margin: 0; background: var(--white); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.6; letter-spacing: 0.02em; font-variant-numeric: tabular-nums; }
+::selection { background: var(--black); color: var(--white); }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-underline-offset: 0.25em; text-decoration-thickness: 1px; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--black); outline-offset: 3px; }
+main:focus { outline: none; }
+h1, h2, h3 { margin: 0; font-family: var(--cond); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.05; }
+p { margin: 0; }
+.wrap { max-width: 1520px; margin: 0 auto; padding: 0 var(--gutter); }
+.label { font-family: var(--cond); font-weight: 500; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; }
+
+.bar { position: sticky; top: 0; z-index: 20; background: var(--white); border-bottom: 1px solid var(--line); }
+.bar-in { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 64px; }
+.nav { display: flex; gap: 22px; }
+.nav a { text-decoration: none; font-family: var(--cond); font-weight: 500; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; padding: 12px 0; border-bottom: 1px solid transparent; }
+.nav a:hover { border-bottom-color: var(--black); }
+.wordmark { font-family: var(--serif); font-size: 30px; letter-spacing: 0.32em; text-decoration: none; padding-left: 0.32em; display: inline-flex; flex-direction: column; align-items: center; line-height: 1; gap: 6px; }
+.wordmark { --logo-gold: #957148; --logo-ink: #6E4F2C; }
+.wordmark svg { display: block; height: 34px; width: auto; }
+.logo-stack { display: block; width: 180px; --logo-gold: #C9A46E; --logo-ink: #DCC497; }
+.logo-stack svg { display: block; width: 100%; height: auto; }
+.tools { display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
+.langs { display: flex; gap: 0; }
+.langs button { border: 0; background: none; min-height: 40px; padding: 0 7px; font-family: var(--cond); font-weight: 500; font-size: 13px; letter-spacing: 0.1em; cursor: pointer; color: var(--grey); }
+.langs button[aria-pressed="true"] { color: var(--black); text-decoration: underline; text-underline-offset: 6px; }
+.langs button:disabled { opacity: 0.4; cursor: not-allowed; }
+.bag { position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 4px; text-decoration: none; font-family: var(--cond); font-weight: 500; font-size: 14px; letter-spacing: 0.1em; }
+.mnav { display: none; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 32px; border: 1px solid var(--black); background: var(--black); color: var(--white); font-family: var(--cond); font-weight: 500; font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: background .25s var(--ease), color .25s var(--ease); }
+.btn:hover { background: var(--white); color: var(--black); }
+.btn.light { background: var(--white); color: var(--black); border-color: var(--white); }
+.btn.light:hover { background: transparent; color: var(--white); }
+.btn.outline { background: transparent; color: var(--black); }
+.btn.outline:hover { background: var(--black); color: var(--white); }
+.tag { position: absolute; font-family: var(--cond); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(255, 255, 255, 0.9); color: var(--black); padding: 4px 8px; }
+
+/* Hero */
+.hero { position: relative; height: calc(100vh - 64px); min-height: 560px; max-height: 920px; overflow: hidden; color: var(--white); background: var(--black); }
+.hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; opacity: 0.92; }
+.hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 45%); }
+.vertical { position: absolute; z-index: 1; left: clamp(4px, 1.2vw, 20px); bottom: 0; transform-origin: 0 100%; transform: rotate(-90deg) translateY(100%); font-family: var(--serif); font-size: clamp(64px, 11vh, 132px); letter-spacing: 0.24em; line-height: 1; color: rgba(255, 255, 255, 0.9); white-space: nowrap; pointer-events: none; }
+.hero-copy { position: absolute; z-index: 1; left: calc(var(--gutter) + clamp(80px, 13vh, 150px)); right: var(--gutter); bottom: clamp(32px, 6vh, 64px); }
+.hero h1 { font-size: clamp(36px, 4.6vw, 72px); letter-spacing: 0.08em; max-width: 16ch; }
+.hero p { margin-top: 12px; max-width: 46ch; font-size: 16px; color: #EDEDED; }
+.hero .btn { margin-top: 24px; }
+
+/* Categories */
+.cats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; margin-top: 4px; }
+.cat { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; color: var(--white); text-decoration: none; background: var(--black); }
+.cat img { width: 100%; height: 100%; object-fit: cover; opacity: 0.94; transition: transform 1.2s var(--ease), opacity .4s var(--ease); }
+.cat:hover img { transform: scale(1.04); opacity: 0.78; }
+.cat::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 72% 34% at 50% 50%, rgba(0, 0, 0, 0.52) 0%, rgba(0, 0, 0, 0.3) 55%, rgba(0, 0, 0, 0) 100%); }
+.cat span { z-index: 1; position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--cond); font-weight: 700; font-size: clamp(22px, 2.6vw, 40px); letter-spacing: 0.12em; text-transform: uppercase; text-align: center; padding: 0 16px; text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35); }
+
+.sec { padding: clamp(64px, 8vw, 120px) 0 0; }
+.sec-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; padding-bottom: 14px; border-bottom: 1px solid var(--black); }
+.sec-head h2 { font-size: clamp(24px, 2.4vw, 34px); }
+.filters { display: flex; gap: 20px; }
+.filters button { border: 0; background: none; min-height: 40px; padding: 0; font-family: var(--cond); font-weight: 500; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--grey); cursor: pointer; border-bottom: 1px solid transparent; }
+.filters button[aria-pressed="true"] { color: var(--black); border-bottom-color: var(--black); }
+.note-row { margin: -12px 0 20px; display: flex; gap: 6px; align-items: center; }
+.row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 4px; }
+.item { display: block; text-decoration: none; }
+.item-img { position: relative; aspect-ratio: 3 / 4; background: var(--plate); overflow: hidden; }
+.item-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.item:hover .item-img img { transform: scale(1.03); }
+.item-img .tag { left: 10px; top: 10px; }
+.item-body { padding: 14px 4px 0; }
+.item h3 { font-size: 17px; letter-spacing: 0.1em; }
+.item .meta { margin-top: 4px; color: var(--grey); font-size: 14px; }
+.item .price { margin-top: 4px; font-size: 15px; }
+.item .fabs { margin-top: 10px; display: flex; gap: 4px; }
+
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: clamp(64px, 8vw, 120px); background: var(--white); }
+.split .img { position: relative; aspect-ratio: 1; overflow: hidden; }
+.split .img img { width: 100%; height: 100%; object-fit: cover; }
+.split .text { display: flex; flex-direction: column; justify-content: center; padding: clamp(32px, 6vw, 112px); background: var(--plate); }
+.split h2 { font-size: clamp(28px, 3vw, 46px); }
+.split p { margin-top: 20px; max-width: 44ch; font-size: 17px; color: #333; }
+.split .fabric-list { margin-top: 32px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.split figure { margin: 0; }
+.split figure img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.split figcaption { margin-top: 8px; }
+.split figcaption small { display: block; margin-top: 2px; font-family: var(--sans); font-size: 13px; letter-spacing: 0; text-transform: none; color: var(--grey); }
+
+.quote { text-align: center; padding: clamp(80px, 10vw, 160px) var(--gutter); }
+.quote blockquote { margin: 0 auto; max-width: 24ch; font-family: var(--serif); font-size: clamp(32px, 3.6vw, 56px); line-height: 1.2; letter-spacing: 0.01em; }
+.quote cite { display: block; margin-top: 28px; font-style: normal; }
+
+.service { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--black); border-bottom: 1px solid var(--line); }
+.service div { padding: 28px 24px; }
+.service div + div { border-left: 1px solid var(--line); }
+.service p { margin-top: 6px; color: var(--grey); }
+
+.foot { background: var(--black); color: #CFCFCF; margin-top: clamp(64px, 8vw, 120px); padding: 64px 0 28px; }
+.foot-in { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; }
+.foot .label { color: var(--white); margin-bottom: 14px; }
+.foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.foot a { color: #CFCFCF; }
+.foot p.lead { margin-top: 14px; max-width: 38ch; }
+.foot .legal { margin-top: 48px; padding-top: 18px; border-top: 1px solid #333; font-size: 13px; color: #A3A3A3; }
+
+/* PDP */
+.pdp { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: clamp(24px, 4vw, 80px); padding-bottom: clamp(64px, 8vw, 112px); }
+.gallery-main { position: relative; margin: 0; background: var(--plate); aspect-ratio: 1; overflow: hidden; }
+.gallery-main img { width: 100%; height: 100%; object-fit: cover; }
+.mine { position: absolute; left: 10px; bottom: 10px; margin: 0; display: flex; align-items: center; gap: 12px; max-width: calc(100% - 20px); padding: 8px 16px 8px 8px; background: var(--white); }
+.km-pair { position: relative; display: block; flex: none; width: var(--pair); height: var(--pair); }
+.km-pair img { position: absolute; display: block; object-fit: cover; border-radius: 0; }
+.km-pair .km-shell { left: 0; top: 0; width: 80%; height: 80%; }
+.km-pair .km-pad { right: 0; bottom: 0; width: 58%; height: 58%; box-shadow: 0 0 0 3px var(--white); }
+.mine .km-pair { --pair: 60px; }
+.mine figcaption { display: grid; grid-template-columns: auto auto; gap: 2px 12px; align-items: baseline; font-size: 14px; line-height: 1.4; color: var(--ink); }
+.mine figcaption span { font-size: 12px; color: var(--ink-soft); }
+.thumbs { display: flex; gap: 4px; margin-top: 4px; }
+.thumbs button { width: 96px; aspect-ratio: 1; padding: 0; border: 0; background: var(--plate); cursor: pointer; opacity: 0.6; outline-offset: -1px; transition: opacity .25s var(--ease); }
+.thumbs button:hover { opacity: 0.85; }
+.thumbs button[aria-current="true"] { opacity: 1; outline: 1px solid var(--black); }
+.thumbs img { width: 100%; height: 100%; object-fit: cover; }
+.panel { position: sticky; top: 64px; align-self: start; padding-top: 40px; }
+.crumb { color: var(--grey); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; min-height: 40px; }
+.crumb:hover { text-decoration: underline; }
+.panel h1 { margin-top: 18px; font-size: clamp(32px, 3vw, 48px); letter-spacing: 0.08em; }
+.panel .meta { margin-top: 6px; color: var(--grey); }
+.panel .price { margin-top: 18px; font-size: 22px; }
+.panel .final { font-size: 13px; color: var(--grey); }
+.panel .blurb { margin-top: 18px; max-width: 46ch; font-size: 16px; }
+.opt { margin-top: 28px; }
+.opt .label b { font-family: var(--sans); font-weight: 500; text-transform: none; letter-spacing: 0.02em; font-size: 15px; margin-left: 6px; }
+.fabs-pick { display: flex; gap: 8px; margin-top: 12px; }
+.fab { width: 52px; height: 52px; padding: 3px; border: 1px solid transparent; background: none; cursor: pointer; }
+.fab img { width: 100%; height: 100%; object-fit: cover; }
+.fab[aria-pressed="true"] { border-color: var(--black); }
+.sizes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; margin-top: 12px; }
+.size { min-height: 52px; border: 1px solid var(--line); background: var(--white); cursor: pointer; font-family: var(--cond); font-weight: 500; font-size: 15px; letter-spacing: 0.1em; }
+.size[aria-pressed="true"] { border-color: var(--black); background: var(--black); color: var(--white); }
+.size-info { margin-top: 10px; color: var(--grey); }
+.buy { display: grid; grid-template-columns: auto 1fr; gap: 4px; margin-top: 24px; }
+.qty { display: inline-flex; align-items: center; border: 1px solid var(--line); }
+.qty button { width: 44px; height: 50px; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+.qty span { min-width: 18px; text-align: center; }
+.acc { margin-top: 28px; border-top: 1px solid var(--black); }
+.acc details { border-bottom: 1px solid var(--line); }
+.acc summary { list-style: none; cursor: pointer; padding: 16px 0; display: flex; justify-content: space-between; align-items: center; }
+.acc summary::-webkit-details-marker { display: none; }
+.acc summary svg { transition: transform .3s var(--ease); }
+.acc details[open] summary svg { transform: rotate(45deg); }
+.acc details p { padding: 0 0 18px; color: #333; max-width: 52ch; }
+
+/* Cart / checkout */
+.page-title { font-size: clamp(32px, 3.4vw, 52px); padding: 40px 0 24px; letter-spacing: 0.1em; }
+.cols { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: clamp(24px, 4vw, 72px); align-items: start; padding-bottom: 96px; }
+.lines { border-top: 1px solid var(--black); }
+.line { display: grid; grid-template-columns: 110px minmax(0, 1fr) auto; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line); align-items: start; }
+.line img { width: 110px; height: 138px; object-fit: cover; background: var(--plate); }
+.line h3 { font-size: 17px; letter-spacing: 0.1em; }
+.line .meta { color: var(--grey); margin-top: 4px; }
+.fabric-meta { display: flex; align-items: center; gap: 8px; }
+.line .fabric-meta img, .co-line img { width: 22px; height: 22px; object-fit: cover; outline: 1px solid var(--line); }
+.co-line { display: grid; grid-template-columns: 22px 1fr auto; gap: 10px; align-items: center; padding: 6px 0; font-size: 14px; }
+.co-line small { display: block; color: var(--grey); }
+.line .ctl { display: flex; align-items: center; gap: 16px; margin-top: 14px; }
+.line .qty button { height: 40px; width: 40px; }
+.u { border: 0; background: none; padding: 8px 0; min-height: 40px; cursor: pointer; text-decoration: underline; color: var(--grey); font-size: 14px; }
+.panel-sum { border: 1px solid var(--black); padding: 28px; position: sticky; top: 88px; }
+.panel-sum .r { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; }
+.panel-sum .tot { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 19px; font-weight: 600; }
+.bar-free { height: 2px; background: var(--line); margin: 8px 0 6px; }
+.bar-free i { display: block; height: 100%; background: var(--black); transition: width .6s var(--ease); }
+.note { color: var(--grey); font-size: 13px; }
+.panel-sum .btn { width: 100%; margin-top: 22px; }
+.empty { border: 1px solid var(--line); padding: 80px 24px; text-align: center; margin-bottom: 96px; }
+.empty p { margin-bottom: 24px; font-size: 18px; }
+.form { display: grid; gap: 18px; }
+.form .label { margin-top: 8px; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.fl { display: grid; gap: 6px; font-family: var(--cond); font-weight: 500; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; }
+.fl input, .fl textarea { font-family: var(--sans); font-size: 16px; letter-spacing: 0.02em; text-transform: none; min-height: 50px; padding: 0 14px; border: 1px solid #BDBDBD; background: var(--white); color: var(--ink); }
+.fl textarea { padding: 12px 14px; min-height: 96px; resize: vertical; }
+.fl input:focus, .fl textarea:focus { outline: none; border-color: var(--black); box-shadow: inset 0 0 0 1px var(--black); }
+.fl small { font-family: var(--sans); text-transform: none; letter-spacing: 0.02em; font-weight: 400; color: var(--grey); font-size: 13px; }
+.fl .err { display: none; color: #B00020; }
+.was-validated .fl input:invalid { border-color: #B00020; }
+.was-validated .fl input:invalid ~ .err { display: block; }
+.pay { border: 1px solid var(--black); padding: 18px; }
+.pay p { margin-top: 4px; color: var(--grey); }
+.done { max-width: 720px; margin: 0 auto; text-align: center; padding: clamp(72px, 12vw, 160px) 0; }
+.done h1 { font-size: clamp(40px, 5vw, 72px); letter-spacing: 0.1em; }
+.done p { margin-top: 18px; font-size: 17px; }
+.done .service { margin-top: 48px; text-align: left; }
+.done .btn { margin-top: 36px; }
+
+@media (max-width: 1000px) {
+  .row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .split, .pdp, .cols { grid-template-columns: 1fr; }
+  .panel, .panel-sum { position: static; }
+}
+@media (max-width: 760px) {
+  .bar-in { grid-template-columns: 1fr auto; height: 56px; }
+  .thumbs button { width: 72px; }
+  .nav { display: none; }
+  .tools .langs button:disabled { display: none; }
+  .wordmark { font-size: 22px; }
+  .mnav { display: flex; scrollbar-width: none; gap: 18px; overflow-x: auto; padding: 0 var(--gutter) 10px; }
+  .mnav a { flex: none; text-decoration: none; font-family: var(--cond); font-weight: 500; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 0; }
+  .hero { height: 82vh; min-height: 520px; }
+  .hero img { object-position: 28% 55%; }
+  .cols.checkout aside { order: -1; }
+  .vertical { font-size: 64px; }
+  .hero-copy { left: calc(var(--gutter) + 64px); }
+  .cats { grid-template-columns: 1fr; }
+  .cat { aspect-ratio: 16 / 10; }
+  .mine .km-pair { --pair: 48px; }
+  .mine figcaption { font-size: 13px; }
+  .row { gap: 28px 4px; }
+  .item h3 { font-size: 15px; }
+  .service { grid-template-columns: 1fr; }
+  .service div + div { border-left: 0; border-top: 1px solid var(--line); }
+  .split .fabric-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .foot-in { grid-template-columns: 1fr 1fr; }
+  .foot-in > div:first-child { grid-column: 1 / -1; }
+  .line { grid-template-columns: 84px minmax(0, 1fr); }
+  .line img { width: 84px; height: 105px; }
+  .line .sum { grid-column: 2; }
+  .pair { grid-template-columns: 1fr; }
+  .sizes { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+@media (max-width: 760px) { .wordmark svg { height: 26px; } }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="logo.js"></script>
+<script src="shop.js"></script>
+<script>
+(function () {
+  var I = {
+    bag: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/></svg>',
+    plus: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 4v16M4 12h16"/></svg>',
+    left: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M20 12H4M10 6l-6 6 6 6"/></svg>',
+    minus: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12h16"/></svg>'
+  };
+
+  function langs(s) {
+    return '<div class="langs" role="group" aria-label="Jezik"><button type="button" aria-pressed="true" title="Srpski">SR</button><button type="button" disabled title="U pripremi">EN</button><button type="button" disabled title="U pripremi">RU</button></div>';
+  }
+
+  function header(c) {
+    return '<header class="bar"><div class="wrap bar-in"><nav class="nav" aria-label="Glavni meni"><a href="#/proizvodi" data-act="browse">Krevetići</a><a href="#/tkanine">Tkanine</a><a href="#/proizvodi" data-act="browse" data-coll="Poznato. Ali novo.">Kolekcija</a></nav>' +
+      '<a class="wordmark" href="#/" aria-label="KettyMon, početna">' + KM_LOGO.row + '</a><div class="tools">' + langs(c.state) + '<a class="bag" href="#/korpa" aria-label="Korpa, ' + c.cart.count + ' proizvoda">' + I.bag + '<span aria-hidden="true">(' + c.cart.count + ')</span></a></div></div>' +
+      '<nav class="mnav" aria-label="Meni"><a href="#/proizvodi" data-act="browse">Krevetići</a><a href="#/tkanine">Tkanine</a><a href="#/proizvodi" data-act="browse" data-coll="Poznato. Ali novo.">Kolekcija</a></nav></header>';
+  }
+
+  function item(p) {
+    return '<a class="item" href="#/p/' + p.id + '"><div class="item-img"><img src="' + p.photos[0] + '" alt="' + p.kind + ' ' + p.name + '" loading="lazy">' + (p.isNew ? '<span class="tag">Novo</span>' : '') + '</div>' +
+      '<div class="item-body"><h3>' + p.name + '</h3><p class="meta">' + p.kind + ' · ' + p.sizeLabel + '</p><p class="price">' + p.from + '</p></div></a>';
+  }
+
+  function home(c) {
+    var s = c.state;
+    var filters = [['', 'Svi'], [c.collection, 'Kolekcija']].map(function (f) { return '<button type="button" data-act="coll" data-coll="' + f[0] + '" aria-pressed="' + (s.coll === f[0]) + '">' + f[1] + '</button>'; }).join('');
+    return '<section class="hero" id="kolekcija"><img src="img/cat-fireplace.webp" alt="Mačka spava u bež pliš krevetiću kraj kamina" fetchpriority="high">' +
+      '<span class="vertical" aria-hidden="true">KETTYMON</span>' +
+      '<div class="hero-copy"><h1>Poznato.<br>Ali novo.</h1><p>Nova kolekcija krevetića od pliša i lana, ručno šivena u Srbiji.</p><a class="btn light" href="#/proizvodi" data-act="browse" data-coll="Poznato. Ali novo.">Pogledaj kolekciju</a></div></section>' +
+      '<div class="cats">' +
+      '<a class="cat" href="#/proizvodi" data-act="browse"><img src="img/dog-large-bed.webp" alt="" loading="lazy"><span>Svi krevetići</span></a>' +
+      '<a class="cat" href="#/p/klupko"><img src="img/cat-round-sherpa.webp" alt="" loading="lazy"><span>Okrugli krevetić<br>Klupko</span></a>' +
+      '<a class="cat" href="#/p/luna"><img src="img/bed-bolster-plants.webp" alt="" loading="lazy"><span>Pravougaoni krevetić<br>Luna</span></a>' +
+      '<a class="cat" href="#/proizvodi" data-act="browse" data-coll="Poznato. Ali novo."><img src="img/cat-pink-cushion.webp" alt="" loading="lazy"><span>Kolekcija<br>Poznato. Ali novo.</span></a></div>' +
+      '<section class="sec" id="proizvodi"><div class="wrap"><div class="sec-head"><h2>Svi modeli</h2><div class="filters" role="group" aria-label="Kolekcija">' + filters + '</div></div>' + (c.filterNote ? '<p class="note-row label">' + c.filterNote + ' · <button type="button" class="u" data-act="browse">Prikaži sve</button></p>' : '') + '<div class="row">' + c.products.map(item).join('') + '</div></div></section>' +
+      '<section class="split"><div class="img"><img src="img/dog-blanket-close.webp" alt="Pas umotan u sivo ćebe" loading="lazy"></div>' +
+      '<div class="text" id="tkanine"><h2>Pažljivo odabrani materijali</h2><p>Svaki krevetić ima jastuk i spoljni deo, a tkaninu birate za svaki posebno. Cena zavisi samo od veličine.</p><div class="fabric-list">' +
+      c.fabricIds.map(function (k) { var f = c.fabrics[k]; return '<figure><img src="' + f.img + '" alt="Tkanina ' + f.name + ' izbliza" loading="lazy"><figcaption class="label">' + f.name + '<small>' + (f.pad && f.shell ? 'Jastuk i spoljni deo' : f.pad ? 'Samo jastuk' : 'Samo spoljni deo') + '</small></figcaption></figure>'; }).join('') + '</div></div></section>' +
+      '<section class="quote" id="utisci"><blockquote>„Šarko je od prvog dana spavao samo na svom KettyMon krevetiću. Sad ne može da ga namami ni kauč.“</blockquote><cite class="label">Šarko, mešanac · primer utiska</cite></section>' +
+      '<div class="wrap"><div class="service"><div><p class="label">Plaćanje pouzećem</p><p>Plaćate kuriru kada paket stigne.</p></div><div><p class="label">' + c.delivery + '</p><p>Besplatna dostava od ' + c.freeFrom + '.</p></div><div><p class="label">Povrat 14 dana</p><p>Ako ne odgovara, vratite ga.</p></div></div></div>';
+  }
+
+  function fabs(part, label, cur, opts) {
+    return '<div class="opt"><p class="label">' + label + '<b>' + cur.name + '</b></p><div class="fabs-pick" role="group" aria-label="Tkanina, ' + label.toLowerCase() + '">' + opts.map(function (f) { return '<button type="button" class="fab" data-act="' + part + '" data-fabric="' + f.id + '" aria-pressed="' + f.on + '" aria-label="' + f.name + '"><img src="' + f.img + '" alt=""></button>'; }).join('') + '</div></div>';
+  }
+
+  function product(c) {
+    var v = c.pv, p = v.p, pk = v.pick, g = v.gallery[v.view];
+    return '<div class="wrap"><div class="pdp"><div><figure class="gallery-main"><img src="' + g.src + '" alt="' + g.alt + '">' +
+      '<figure class="mine" aria-live="polite">' + v.pair + '<figcaption><span>Jastuk</span>' + v.pad.name + '<span>Spoljni deo</span>' + v.shell.name + '</figcaption></figure></figure>' +
+      '<div class="thumbs">' + v.gallery.map(function (t, i) { return '<button type="button" data-act="view" data-view="' + i + '" aria-current="' + (i === v.view) + '" aria-label="Prikaži sliku ' + (i + 1) + '"><img src="' + t.src + '" alt=""></button>'; }).join('') + '</div></div>' +
+      '<div class="panel"><a class="crumb" href="#/proizvodi">' + I.left + 'Svi modeli</a><h1>' + p.name + '</h1><p class="meta">' + p.kind + ' · ' + v.sizeLabel + (p.collection ? ' · Kolekcija ' + p.collection : '') + '</p>' +
+      '<p class="price">' + v.price + '</p><p class="final">Cene su konačne. Cena zavisi samo od veličine.</p><p class="blurb">' + p.blurb + '</p>' +
+      fabs('pad', 'Jastuk', v.pad, v.padOptions) + fabs('shell', 'Spoljni deo', v.shell, v.shellOptions) +
+      '<div class="opt"><p class="label">Veličina<b>' + v.size.id + '</b></p><div class="sizes">' + p.sizes.map(function (z) { return '<button type="button" class="size" data-act="size" data-size="' + z.id + '" aria-pressed="' + (z.id === v.size.id) + '">' + z.id + '</button>'; }).join('') + '</div><p class="size-info">' + v.size.dims + ' · za ljubimce ' + v.size.pet + '</p></div>' +
+      '<div class="buy"><div class="qty"><button type="button" data-act="qty" data-d="-1" aria-label="Smanji količinu">' + I.minus + '</button><span aria-live="polite">' + pk.qty + '</span><button type="button" data-act="qty" data-d="1" aria-label="Povećaj količinu">' + I.plus + '</button></div><button type="button" class="btn" data-act="add">Dodaj u korpu</button></div>' +
+      '<div class="acc"><details open><summary class="label">Dostava i plaćanje ' + I.plus + '</summary><p>' + c.delivery + '. Pre slanja vas zovemo da potvrdimo porudžbinu, a plaćate gotovinom kuriru. Dostava ' + c.fee + ', besplatna od ' + c.freeFrom + '.</p></details>' +
+      '<details><summary class="label">Povrat ' + I.plus + '</summary><p>Imate 14 dana od preuzimanja da vratite proizvod. Povratnu dostavu plaćate vi.</p></details></div></div></div></div>';
+  }
+
+  function sum(c, action, list) {
+    var k = c.cart;
+    return '<aside class="panel-sum" aria-label="Pregled porudžbine">' + (list ? '<div style="border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:8px">' + list + '</div>' : '') + '<div class="r"><span>Međuzbir</span><span>' + k.subtotal + '</span></div><div class="r"><span>Dostava</span><span>' + k.shipping + '</span></div>' +
+      (k.freeLeft ? '<div class="bar-free" aria-hidden="true"><i style="width:' + k.freeProgress + '%"></i></div><p class="note">Dodajte još ' + k.freeLeft + ' za besplatnu dostavu.</p>' : '') +
+      '<div class="r tot"><span>Ukupno</span><span>' + k.total + '</span></div><p class="note">Cene su konačne. Plaćanje pouzećem.</p>' + action + '</aside>';
+  }
+
+  function cart(c) {
+    var k = c.cart;
+    if (k.empty) return '<div class="wrap"><h1 class="page-title">Korpa</h1><div class="empty"><p>Korpa je prazna.</p><a class="btn" href="#/proizvodi">Svi modeli</a></div></div>';
+    return '<div class="wrap"><h1 class="page-title">Korpa</h1><div class="cols"><div class="lines">' + k.lines.map(function (l) {
+      return '<div class="line"><img src="' + l.product.photos[0] + '" alt=""><div><h3>' + l.product.name + '</h3><p class="meta">' + l.product.kind + ' · ' + l.size.id + ', ' + l.size.dims + '</p><p class="meta fabric-meta"><img src="' + l.pad.img + '" alt=""><img src="' + l.shell.img + '" alt="">' + l.fabricText + '</p><div class="ctl"><div class="qty"><button type="button" data-act="line" data-i="' + l.index + '" data-d="-1" aria-label="Smanji količinu">' + I.minus + '</button><span>' + l.qty + '</span><button type="button" data-act="line" data-i="' + l.index + '" data-d="1" aria-label="Povećaj količinu">' + I.plus + '</button></div><button type="button" class="u" data-act="remove" data-i="' + l.index + '">Ukloni</button></div></div><p class="sum">' + l.total + '</p></div>';
+    }).join('') + '</div>' + sum(c, '<a class="btn" href="#/porucivanje">Završi kupovinu</a>') + '</div></div>';
+  }
+
+  function fl(name, label, type, extra, help) {
+    return '<label class="fl">' + label + '<input name="' + name + '" type="' + type + '" required ' + (extra || '') + '>' + (help ? '<small>' + help + '</small>' : '') + '<small class="err">Popunite ovo polje.</small></label>';
+  }
+
+  function checkout(c) {
+    return '<div class="wrap"><h1 class="page-title">Poručivanje</h1><div class="cols checkout"><form class="form" data-form="order" novalidate><p class="label">Adresa za dostavu</p>' +
+      '<div class="pair">' + fl('ime', 'Ime', 'text', 'autocomplete="given-name"') + fl('prezime', 'Prezime', 'text', 'autocomplete="family-name"') + '</div>' + fl('ulica', 'Ulica i broj', 'text', 'autocomplete="street-address"') +
+      '<div class="pair">' + fl('grad', 'Grad', 'text', 'autocomplete="address-level2"') + fl('postanski', 'Poštanski broj', 'text', 'inputmode="numeric" pattern="[0-9]{5}" autocomplete="postal-code"') + '</div>' +
+      fl('telefon', 'Telefon', 'tel', 'autocomplete="tel"', 'Zovemo vas da potvrdimo porudžbinu.') + fl('email', 'Email', 'email', 'autocomplete="email"', 'Ovde šaljemo potvrdu porudžbine.') +
+      '<label class="fl">Napomena (opciono)<textarea name="napomena" rows="3"></textarea></label>' +
+      '<p class="label">Plaćanje</p><div class="pay"><p class="label">Pouzećem</p><p>Gotovinom kuriru pri preuzimanju paketa.</p></div>' +
+      '<button class="btn" type="submit">Poruči · ' + c.cart.total + '</button></form>' + sum(c, '', c.cart.lines.map(function (l) { return '<div class="co-line"><img src="' + l.shell.img + '" alt=""><span>' + l.qty + ' × ' + l.product.name + ', ' + l.size.id + '<small>' + l.fabricText + '</small></span><span>' + l.total + '</span></div>'; }).join('')) + '</div></div>';
+  }
+
+  function done(c) {
+    var o = c.order || { number: 'KM-1042' };
+    return '<div class="wrap"><div class="done"><h1>Hvala</h1><p>Primili smo vašu porudžbinu <span>' + o.number + '</span>.</p>' +
+      '<div class="service"><div><p class="label">1 · Poziv</p><p>Zovemo vas' + (o.phone ? ' na ' + c.esc(o.phone) : '') + ' da potvrdimo porudžbinu' + '.</p></div><div><p class="label">2 · Slanje</p><p>' + c.delivery + '.</p></div><div><p class="label">3 · Plaćanje</p><p>Gotovinom kuriru.</p></div></div>' +
+      '<a class="btn outline" href="#/">Nazad na početnu</a></div></div>';
+  }
+
+  function footer(c) {
+    return '<footer class="foot"><div class="wrap"><div class="foot-in"><div><span class="logo-stack">' + KM_LOGO.stack + '</span><p class="lead">Premium krevetići za pse i mačke. Prototip: fotografije, nazivi modela i tkanina, cene, cena dostave i rok dostave su privremeni primeri.</p></div>' +
+      '<div><p class="label">Kupovina</p><ul><li><a href="#">Dostava i plaćanje</a></li><li><a href="#">Povrat u roku od 14 dana</a></li><li><a href="#">Uslovi kupovine</a></li><li><a href="#">Politika privatnosti</a></li></ul></div>' +
+      '<div><p class="label">Kontakt</p><ul><li>[Telefon]</li><li>[Email]</li><li><a href="https://www.instagram.com/ketty.mon/">Instagram</a> · <a href="#">Viber</a> · <a href="#">WhatsApp</a></li></ul></div></div>' +
+      '<p class="legal">© KettyMon · Prodavac: ' + c.seller + ' · Nije u sistemu PDV-a · Cene su konačne.</p></div></footer>';
+  }
+
+  function act(a, el, ev, state, render) {
+  }
+
+  KM.mount({ header: header, footer: footer, home: home, product: product, cart: cart, checkout: checkout, done: done, act: act });
+})();
+</script>
+</body>
+</html>

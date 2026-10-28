@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>KettyMon prototipovi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --porcelain: #F6F2EC;
+  --ink: #2A221B;
+  --ink-soft: #5A4D40;
+  --bronze: #6E4F2C;
+  --gold: #957148;
+  --line: #D6CBBB;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--porcelain); color: var(--ink); font: 400 17px/1.55 'PT Sans', sans-serif; }
+main { max-width: 1120px; margin: 0 auto; padding: 56px 24px 80px; }
+.logo { display: block; width: 200px; margin: 0 auto 40px; --logo-gold: #957148; --logo-ink: #6E4F2C; }
+.logo svg { display: block; width: 100%; height: auto; }
+h1 { font: 400 clamp(30px, 4vw, 42px)/1.15 'EB Garamond', serif; text-align: center; margin: 0 0 12px; }
+.lead { text-align: center; color: var(--ink-soft); max-width: 560px; margin: 0 auto 48px; }
+ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 32px 24px; }
+a { color: inherit; text-decoration: none; display: block; }
+img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #ECE6DC; }
+.name { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--line); padding: 14px 0 10px; }
+.name b { font: 400 26px/1.2 'EB Garamond', serif; }
+.name span { color: var(--bronze); font-size: 15px; }
+a:hover .name span, a:focus-visible .name span { text-decoration: underline; text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+footer { margin-top: 64px; text-align: center; color: var(--ink-soft); font-size: 15px; }
+@media (max-width: 760px) { main { padding: 40px 16px 64px; } .logo { width: 160px; } }
+</style>
+</head>
+<body>
+<main>
+  <span class="logo" id="logo"></span>
+  <h1>Prototipovi prodavnice</h1>
+  <p class="lead">Sedam predloga izgleda za KettyMon prodavnicu. Svaki radi do kraja: možete izabrati krevet i tkaninu, dodati ga u korpu i proći kroz porudžbinu.</p>
+  <ul>
+    <li><a href="zanat/"><img src="img/room-wide-saluki.webp" alt=""><div class="name"><b>Zanat</b><span>Otvori</span></div></a></li>
+    <li><a href="san/"><img src="img/bed-oval-room.webp" alt=""><div class="name"><b>San</b><span>Otvori</span></div></a></li>
+    <li><a href="tisina/"><img src="img/dog-large-bed.webp" alt=""><div class="name"><b>Tišina</b><span>Otvori</span></div></a></li>
+    <li><a href="katalog/"><img src="img/cat-round-sherpa.webp" alt=""><div class="name"><b>Katalog</b><span>Otvori</span></div></a></li>
+    <li><a href="boje/"><img src="img/cat-pink-cushion.webp" alt=""><div class="name"><b>Boje</b><span>Otvori</span></div></a></li>
+    <li><a href="radionica/"><img src="img/dog-blanket-close.webp" alt=""><div class="name"><b>Radionica</b><span>Otvori</span></div></a></li>
+    <li><a href="atelje/"><img src="img/puppy-sherpa.webp" alt=""><div class="name"><b>Atelje</b><span>Otvori</span></div></a></li>
+  </ul>
+  <footer>Fotografije su privremene, dok ne stignu fotografije KettyMon kreveta. Porudžbine se ne šalju.</footer>
+</main>
+<script src="katalog/logo.js"></script>
+<script>document.getElementById('logo').innerHTML = KM_LOGO.stack;</script>
+</body>
+</html>
