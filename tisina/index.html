@@ -75,8 +75,7 @@ p { margin: 0; }
 @keyframes in-next { from { clip-path: inset(0 0 0 100%); transform: translateX(4%); } to { clip-path: inset(0); transform: none; } }
 @keyframes in-prev { from { clip-path: inset(0 100% 0 0); transform: translateX(-4%); } to { clip-path: inset(0); transform: none; } }
 .caption, .frame .arrows { z-index: 2; }
-.caption { position: absolute; left: clamp(16px, 3vw, 40px); bottom: clamp(16px, 3vw, 40px); width: min(420px, calc(100% - 32px)); background: var(--white); padding: 30px 32px 28px; outline: 1px solid var(--line); outline-offset: -8px; }
-.side-r .caption { left: auto; right: clamp(16px, 3vw, 40px); }
+.caption { position: absolute; right: clamp(16px, 3vw, 40px); bottom: clamp(16px, 3vw, 40px); width: min(420px, calc(100% - 32px)); background: var(--white); padding: 30px 32px 28px; outline: 1px solid var(--line); outline-offset: -8px; }
 .caption h1 { font-size: clamp(34px, 3.2vw, 46px); }
 .caption .blurb { margin-top: 10px; color: var(--ink-soft); }
 .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 18px; }
@@ -88,8 +87,6 @@ p { margin: 0; }
 .caption .price { font-family: var(--serif); font-size: 26px; }
 .caption .more { margin-top: 16px; }
 .frame .arrows { position: absolute; left: clamp(16px, 3vw, 40px); bottom: clamp(16px, 3vw, 40px); background: var(--white); padding: 6px; outline: 1px solid var(--line); outline-offset: -3px; }
-/* the arrows stay bottom-left on every model; a left-hand caption sits above them */
-.frame:not(.side-r) .caption { bottom: calc(clamp(16px, 3vw, 40px) + 68px); }
 .frame .arrows button { border-color: transparent; }
 .frame .arrows button:hover { border-color: var(--line); }
 
@@ -258,11 +255,9 @@ p { margin: 0; }
   .frame > img { position: relative; height: 54svh; min-height: 300px; }
   .frame { overflow-x: clip; }
   .frame > img.hero-old { position: absolute; top: 0; left: 0; }
-  .caption { position: relative; left: 0; bottom: 0; width: 100%; padding: 22px var(--gutter) 6px; }
+  .caption { position: relative; right: 0; bottom: 0; width: 100%; padding: 22px var(--gutter) 6px; }
   .caption .row .btn { flex: 1; }
   .frame .arrows { top: calc(54svh - 64px); bottom: auto; left: 12px; }
-  .frame:not(.side-r) .caption { bottom: 0; }
-  .side-r .caption { right: 0; }
   .rail { grid-auto-columns: 72%; }
   .band .cols { grid-template-columns: 1fr; }
   .band .cols div { padding: 16px 0; }
@@ -365,8 +360,6 @@ p { margin: 0; }
   };
   var P = ['oblak', 'luna', 'klupko', 'medo', 'mezimce', 'roza'].map(KM.find);
   var ui = { hero: 0, dir: '', from: '', heroSize: {}, added: null, rail: 0 };
-  // models whose animal sits left of centre get the caption card on the right
-  var RIGHT = { oblak: true, klupko: true, medo: true, mezimce: true };
   P.forEach(function (p) { new Image().src = p.photos[0]; });
 
   function header(c) {
@@ -381,7 +374,7 @@ p { margin: 0; }
   function hero(c) {
     var p = P[ui.hero], sid = ui.heroSize[p.id] || p.sizes[Math.min(1, p.sizes.length - 1)].id;
     var z = p.sizes.filter(function (s) { return s.id === sid; })[0];
-    return '<section class="hero" aria-label="Izdvojeni model"><div class="wrap"><div class="frame' + (RIGHT[p.id] ? ' side-r' : '') + '">' + (ui.dir && ui.from ? '<img class="hero-old" src="' + ui.from + '" alt="">' : '') + '<img class="hero-img" src="' + p.photos[0] + '" alt="' + p.kind + ' ' + p.name + '" fetchpriority="high">' +
+    return '<section class="hero" aria-label="Izdvojeni model"><div class="wrap"><div class="frame">' + (ui.dir && ui.from ? '<img class="hero-old" src="' + ui.from + '" alt="">' : '') + '<img class="hero-img" src="' + p.photos[0] + '" alt="' + p.kind + ' ' + p.name + '" fetchpriority="high">' +
       '<div class="caption"><h1>' + p.name + '</h1><p class="fit">' + p.kind + '</p><p class="blurb">' + p.blurb + '</p>' +
       '<div class="chips" role="group" aria-label="Veličina">' + p.sizes.map(function (s) { return '<button type="button" class="chip" data-act="hsize" data-size="' + s.id + '" aria-pressed="' + (s.id === sid) + '">' + s.id + '</button>'; }).join('') + '</div>' +
       '<p class="fit">' + z.dims + ' · ' + z.pet + '<br>Jastuk: ' + c.fabrics[p.pad].name + ' · Spoljni deo: ' + c.fabrics[p.shell].name + '</p>' +
