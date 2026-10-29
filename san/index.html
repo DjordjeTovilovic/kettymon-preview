@@ -225,8 +225,8 @@ p { margin: 0; }
   .wordmark { align-items: flex-start; }
   .wordmark svg { height: 26px; }
   .langs button:disabled { display: none; }
-  .mnav { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 0 var(--gutter) 10px; }
-  .mnav a { flex: none; text-decoration: none; padding: 8px 14px; border: 1px solid var(--line); border-radius: 2px; font-size: 14px; font-weight: 500; }
+  .mnav { display: flex; gap: 6px; padding: 0 var(--gutter) 10px; }
+  .mnav a { flex: 1 1 auto; text-align: center; white-space: nowrap; text-decoration: none; padding: 8px 6px; border: 1px solid var(--line); border-radius: 2px; font-size: clamp(12px, 3.6vw, 14px); font-weight: 500; }
   .hero { height: calc(100svh - 112px); min-height: 520px; }
   .hero-in { flex-direction: column; align-items: flex-start; }
   .hero .btn { width: 100%; }

@@ -247,8 +247,8 @@ p { margin: 0; }
   .wordmark { align-items: flex-start; }
   .wordmark svg { height: 26px; }
   .langs button:disabled { display: none; }
-  .mnav { display: flex; gap: 22px; overflow-x: auto; scrollbar-width: none; padding: 0 var(--gutter); border-top: 1px solid var(--line); }
-  .mnav a { flex: none; padding: 12px 0; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; }
+  .mnav { display: flex; justify-content: space-between; gap: 8px; padding: 0 var(--gutter); border-top: 1px solid var(--line); }
+  .mnav a { white-space: nowrap; padding: 12px 0; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; }
   .hero { padding-top: 0; }
   .hero .wrap { padding: 0; }
   .frame { height: auto; display: flex; flex-direction: column; overflow: visible; }
@@ -273,6 +273,7 @@ p { margin: 0; }
   .buy .btn .s { display: none; }
   .added { left: 16px; right: 16px; top: 76px; }
 }
+@media (max-width: 350px) { .mnav a { letter-spacing: 0.03em; } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }

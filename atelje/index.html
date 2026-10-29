@@ -227,8 +227,8 @@ p { margin: 0; }
   .nav { display: none; }
   .tools .langs button:disabled { display: none; }
   .wordmark { font-size: 22px; }
-  .mnav { display: flex; scrollbar-width: none; gap: 18px; overflow-x: auto; padding: 0 var(--gutter) 10px; }
-  .mnav a { flex: none; text-decoration: none; font-family: var(--cond); font-weight: 500; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 0; }
+  .mnav { display: flex; justify-content: space-between; gap: 12px; padding: 0 var(--gutter) 10px; }
+  .mnav a { white-space: nowrap; text-decoration: none; font-family: var(--cond); font-weight: 500; font-size: clamp(11px, 3.6vw, 13px); letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 0; }
   .hero { height: 82vh; min-height: 520px; }
   .hero img { object-position: 28% 55%; }
   .cols.checkout aside { order: -1; }
